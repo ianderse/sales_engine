@@ -31,11 +31,11 @@ class TransactionRepository
   end
 
   def find_by_credit_card_number(cc_num)
-    transactions.detect {|transaction| transaction.credit_card_number == cc_num}
+    transactions.detect {|transaction| transaction.cc_number == cc_num}
   end
 
   def find_by_credit_card_expiration(cc_exp)
-    transactions.detect {|transaction| transaction.credit_card_expiration == cc_exp}
+    transactions.detect {|transaction| transaction.cc_expiration == cc_exp}
   end
 
   def find_by_result(result)
@@ -59,11 +59,11 @@ class TransactionRepository
   end
 
   def find_all_by_credit_card_number(cc_num)
-    transactions.select {|transaction| transaction.credit_card_number == cc_num}
+    transactions.select {|transaction| transaction.cc_number == cc_num}
   end
 
   def find_all_by_credit_card_expiration(cc_exp)
-    transactions.select {|transaction| transaction.credit_card_expiration == cc_exp}
+    transactions.select {|transaction| transaction.cc_expiration == cc_exp}
   end
 
   def find_all_by_result(result)

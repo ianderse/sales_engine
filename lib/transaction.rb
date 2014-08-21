@@ -1,11 +1,11 @@
 class Transaction
-  attr_reader :id, :invoice_id, :credit_card_number, :credit_card_expiration, :result, :created_at, :updated_at, :repo
+  attr_reader :id, :invoice_id, :cc_number, :cc_expiration, :result, :created_at, :updated_at, :repo
 
   def initialize(params, repo)
     @id          = params[:id].to_i
     @invoice_id  = params[:invoice_id].to_i
-    @credit_card_number      = params[:credit_card_number].to_i
-    @credit_card_expiration  = params[:credit_card_expiration]
+    @cc_number      = params[:credit_card_number].to_i
+    @cc_expiration  = params[:credit_card_expiration]
     @result      = params[:result]
     #change this using .to_date
     @created_at  = params[:created_at]
