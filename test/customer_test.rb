@@ -1,6 +1,6 @@
 require 'csv'
 require_relative 'test_helper'
-require_relative '../lib/csv_handler'
+require_relative '../lib/customer_repository'
 require_relative '../lib/customer'
 require_relative '../lib/sales_engine'
 
@@ -9,10 +9,9 @@ class CustomerTest < Minitest::Test
 
   def setup
     @engine = SalesEngine.new
-    @engine.startup
-    csv        = CsvHandler.new("./data/customers.csv")
-    @customers = csv.data.collect {|row| Customer.new(row, @engine.customer_repository)}
-    @customer = customers.first
+    customer_attributes = [{id: 1, first_name: "Joey", last_name: "Ondricka", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
+    @customers = CustomerRepository.new(@engine, customer_attributes)
+    @customer = customers.all.first
   end
 
   def test_it_returns_a_first_name
@@ -24,7 +23,7 @@ class CustomerTest < Minitest::Test
   end
 
   def test_it_returns_an_id
-    assert_equal "1", customer.id
+    assert_equal 1, customer.id
   end
 
   def test_it_returns_an_updated_at
@@ -35,16 +34,4 @@ class CustomerTest < Minitest::Test
     assert_equal "2012-03-27 14:54:09 UTC", customer.created_at
   end
 
-  def test_it_returns_all_associated_invoices
-    assert_equal 8, customer.invoices.size
-  end
-
-  def test_it_returns_an_array_of_a_customers_tranactions
-    assert_equal 8, customer.transactions.count
-  end
-
-  def test_favorite_merchant_returns_merchant_with_most_successful_tranactions
-    skip
-    assert_equal 11, customer.favorite_merchant
-  end
 end
