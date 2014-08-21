@@ -92,4 +92,8 @@ class AssociationsTest < Minitest::Test
 		assert_equal "bob", merchant_repository.most_revenue(3).first.name
 	end
 
+	  def test_it_knows_its_own_items
+    assert_equal 12,  invoice_item.first.item.merchant_id
+  end
+
 end
