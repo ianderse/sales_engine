@@ -34,6 +34,4 @@ class ItemTest < Minitest::Test
 		assert_equal "2012-03-27 14:53:59 UTC", item.created_at
 	end
 
-
-
 end

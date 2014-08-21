@@ -88,4 +88,8 @@ class AssociationsTest < Minitest::Test
 		assert_equal "2012-03-27", item.best_day
 	end
 
+	def test_it_can_get_top_x_merchants_by_revenue
+		assert_equal "bob", merchant_repository.most_revenue(3).first.name
+	end
+
 end
