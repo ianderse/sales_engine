@@ -152,4 +152,8 @@ class AssociationsTest < Minitest::Test
 		assert_equal BigDecimal.new("30000"), @merchant_repo.revenue("2012-03-27")
 	end
 
+	def test_item_repo_can_get_total_item_revenue
+		assert_equal "A", @item_repo.most_revenue(2).first.name
+	end
+
 end

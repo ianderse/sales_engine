@@ -74,6 +74,13 @@ class ItemRepository
   	#get all invoice_items
   	#get item_revenue for each invoice_item
   	#add up item_revenue for items with same id
+  	#all.sort {|item| item.invoice_items.item_revenue.to_i}.reverse.take(num)
+
+  	all.each do |item|
+  		item.invoice_items.sort {|invoice_item| invoice_item.item_revenue.to_i}.reverse.take(num).map do |invoice_item|
+  			invoice_item.item
+  		end
+  	end
   end
 
   def most_items(num)
