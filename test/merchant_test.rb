@@ -9,7 +9,8 @@ class MerchantTest < Minitest::Test
 		row = {:id => "1", :name => "schroeder-Jerde", :created_at => "2012-03-27 14:53:59 UTC", :updated_at => "2012-03-27 14:53:59 UTC"}
 		@engine = SalesEngine.new
 		@engine.startup
-		@merchant = Merchant.new(row, @engine.merchant_repository)
+		@merchants = MerchantRepository.new(@engine, row)
+		@merchant = Merchant.new(row, @merchants)
 	end
 
 	def test_it_exists
@@ -21,7 +22,7 @@ class MerchantTest < Minitest::Test
 	end
 
 	def test_returns_id_of_mercahnt
-		assert_equal "1", merchant.id
+		assert_equal 1, merchant.id
 	end
 
 	def test_returns_when_merchant_was_created

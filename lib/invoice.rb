@@ -3,13 +3,14 @@ require 'csv'
 class Invoice
 
  attr_reader :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :repo
- def initialize(row, repo)
- 	  @id          = row[:id]
- 	  @customer_id = row[:customer_id]
- 	  @merchant_id = row[:merchant_id]
- 	  @status      = row[:status]
- 	  @created_at  = row[:created_at]
- 	  @updated_at  = row[:updated_at]
+ def initialize(params, repo)
+ 	  @id          = params[:id].to_i
+ 	  @customer_id = params[:customer_id].to_i
+ 	  @merchant_id = params[:merchant_id].to_i
+ 	  @status      = params[:status]
+    #to_date
+ 	  @created_at  = params[:created_at]
+ 	  @updated_at  = params[:updated_at]
     @repo        = repo
  	end
 

@@ -6,12 +6,13 @@ class CustomerRepositoryTest < Minitest::Test
   attr_reader :customers
 
   def setup
-    @customers = CustomerRepository.new(SalesEngine.new)
+    customer_attributes = [{id: 1, first_name: "Joey", last_name: "Ondricka"}]
+    @customers = CustomerRepository.new(SalesEngine.new, customer_attributes)
   end
 
   def test_it_returns_all_items
     results = customers.all
-    assert_equal 1000, customers.all.count
+    assert_equal 1, customers.all.count
   end
 
   def test_it_returns_a_random_element
@@ -19,18 +20,18 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_you_can_find_by_id
-    results = customers.find_by_id("1")
+    results = customers.find_by_id(1)
     assert_equal "Joey", results.first_name
   end
 
   def test_you_can_find_by_first_name
     results = customers.find_by_first_name("Joey")
-    assert_equal "1", results.id
+    assert_equal 1, results.id
   end
 
   def test_you_can_find_by_last_name
     results = customers.find_by_last_name("Ondricka")
-    assert_equal "1", results.id
+    assert_equal 1, results.id
   end
 
 end

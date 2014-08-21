@@ -9,19 +9,31 @@ require_relative '../lib/transaction_repository'
 class SalesEngine
 
   attr_reader :merchant_repository, :invoice_repository, :item_repository,
-              :invoice_item_repository, :customer_repository, :transaction_repository
+              :invoice_item_repository, :customer_repository, :transaction_repository,
+              :dir
 
-  def initialize
-
+  def initialize(dir="data")
+    @dir = dir
   end
 
   def startup
-    @merchant_repository = MerchantRepository.new(self)
-    @invoice_repository  = InvoiceRepository.new(self)
-    @item_repository     = ItemRepository.new(self)
-    @invoice_item_repository = InvoiceItemRepository.new(self)
-    @customer_repository = CustomerRepository.new(self)
-    @transaction_repository = TransactionRepository.new(self)
+    merchants_csv = CsvHandler.new("./#{dir}/merchants.csv")
+    @merchant_repository = MerchantRepository.new(self, merchants_csv.data)
+
+    invoices_csv = CsvHandler.new("./#{dir}/invoices.csv")
+    @invoice_repository  = InvoiceRepository.new(self, invoices_csv.data)
+
+    items_csv = CsvHandler.new("./#{dir}/items.csv")
+    @item_repository = ItemRepository.new(self, items_csv.data)
+
+    invoice_item_csv = CsvHandler.new("./#{dir}/invoice_items.csv")
+    @invoice_item_repository = InvoiceItemRepository.new(self, invoice_item_csv.data)
+
+    customer_csv = CsvHandler.new("./#{dir}/customers.csv")
+    @customer_repository = CustomerRepository.new(self, customer_csv.data)
+
+    transaction_csv = CsvHandler.new("./#{dir}/transactions.csv")
+    @transaction_repository = TransactionRepository.new(self, transaction_csv.data)
   end
 
   def find_items_by_merchant_id(id)

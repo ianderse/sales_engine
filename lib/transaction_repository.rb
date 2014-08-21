@@ -5,10 +5,9 @@ require_relative '../lib/transaction'
 class TransactionRepository
   attr_reader :transactions, :engine
 
-  def initialize(engine)
+  def initialize(engine, transaction_attributes)
     @engine = engine
-    csv      = CsvHandler.new("./data/transactions.csv")
-    @transactions = csv.data.collect {|row| Transaction.new(row, self)}
+    @transactions = transaction_attributes.collect {|params| Transaction.new(params, self)}
   end
 
   def all

@@ -7,10 +7,9 @@ require_relative '../lib/csv_handler'
 class InvoiceItemRepository
   attr_reader :invoice_items, :engine
 
-  def initialize(engine)
+  def initialize(engine, invoice_items_attributes)
     @engine = engine
-    csv       = CsvHandler.new("./data/invoice_items.csv")
-    @invoice_items = csv.data.collect {|row| InvoiceItem.new(row, self)}
+    @invoice_items = invoice_items_attributes.collect {|params| InvoiceItem.new(params, self)}
   end
 
   def all
