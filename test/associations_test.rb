@@ -144,4 +144,12 @@ class AssociationsTest < Minitest::Test
 		assert_equal "merchant number 1", invoice.merchant.name
 	end
 
+	def test_merchant_can_return_all_items_sold
+		assert_equal 1, merchant.items_sold
+	end
+
+	def test_merchant_repo_can_get_revenue_on_a_date
+		assert_equal BigDecimal.new("30000"), @merchant_repo.revenue("2012-03-27")
+	end
+
 end

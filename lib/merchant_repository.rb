@@ -51,6 +51,14 @@ class MerchantRepository
   end
 
   def most_items(num)
+    all.sort {|merchant| merchant.items_sold}.reverse.take(num)
+  end
 
+  def revenue(date)
+    total = BigDecimal.new("0")
+    all.each do |merchant|
+      total += merchant.revenue(date)
+    end
+    total
   end
 end

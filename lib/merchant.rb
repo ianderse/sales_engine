@@ -105,5 +105,19 @@ class Merchant
       #need to return as BigDecimal object
   end
 
+  def items_sold
+    total = 0
+      invoices.each do |invoice|
+        invoice.transactions.each do |transaction|
+          if transaction.successful_transaction?
+            invoice.invoice_items.each do |item|
+              total += 1
+            end
+          end
+        end
+      end
+      total
+  end
+
 end
 
