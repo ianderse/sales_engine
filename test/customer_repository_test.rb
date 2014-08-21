@@ -6,7 +6,8 @@ class CustomerRepositoryTest < Minitest::Test
   attr_reader :customers
 
   def setup
-    @customers = CustomerRepository.new(SalesEngine.new)
+    csv = CsvHandler.new("./data/customers.csv")
+    @customers = CustomerRepository.new(nil, csv.data)
   end
 
   def test_it_returns_all_items

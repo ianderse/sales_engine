@@ -8,11 +8,10 @@ require_relative '../lib/transaction_repository'
 
 class SalesEngine
 
-  attr_reader :merchant_repository, :invoice_repository, :item_repository,
-              :invoice_item_repository, :customer_repository, :transaction_repository
+  attr_accessor :merchant_repository, :invoice_repository, :item_repository,
+                :invoice_item_repository, :customer_repository, :transaction_repository
 
-  def initialize
-
+  def initialize(dir="")
   end
 
   def startup
@@ -20,7 +19,9 @@ class SalesEngine
     @invoice_repository  = InvoiceRepository.new(self)
     @item_repository     = ItemRepository.new(self)
     @invoice_item_repository = InvoiceItemRepository.new(self)
-    @customer_repository = CustomerRepository.new(self)
+
+    csv = CsvHandler.new("./data/customers.csv")
+    @customer_repository = CustomerRepository.new(self, csv.data)
     @transaction_repository = TransactionRepository.new(self)
   end
 
@@ -67,7 +68,6 @@ class SalesEngine
   def find_merchant_by_merchant_id(id)
     merchant_repository.find_by_id(id)
   end
-
 end
 
 

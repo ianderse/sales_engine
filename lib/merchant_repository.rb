@@ -6,9 +6,8 @@ class MerchantRepository
 	attr_reader :merchants, :engine
 	#pass engine itself instead of self
 
-  def initialize(engine)
-    csv      = CsvHandler.new("./data/merchants.csv")
-    @merchants = csv.data.collect {|row| Merchant.new(row, self)}
+  def initialize(engine, merchants_attributes)
+    @merchants = merchants_attributes.collect {|row| Merchant.new(row, self)}
 		@engine = engine
   end
 

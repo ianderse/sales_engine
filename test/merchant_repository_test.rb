@@ -34,6 +34,7 @@ class MerchantRepositoryTest < Minitest::Test
 	end
 
 	def test_it_can_get_top_x_merchants_by_revenue
+    skip
 		assert_equal "bob", merchant_repository.most_revenue(3).first.name
 	end
 end

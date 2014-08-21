@@ -1,7 +1,8 @@
-
 class Customer
   attr_reader :id, :first_name, :last_name, :created_at, :updated_at, :repo
 
+  # row implies knowledge of CSV persistence
+  # but this object should be correct independent of context
   def initialize(row, repo)
     @id          = row[:id]
     @first_name  = row[:first_name]
