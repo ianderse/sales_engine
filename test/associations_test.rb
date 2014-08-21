@@ -4,45 +4,66 @@ require_relative '../lib/customer'
 require_relative '../lib/sales_engine'
 
 class AssociationsTest < Minitest::Test
-	attr_reader :merchant
+	attr_reader :merchant, :customer, :item, :invoice_item, :invoice
 
-  def set_world(attributes)
+  def setup
+  	merchants_attributes = [{name: 'Merchant Name', id: 12}]
+
+    items_attributes =     [{id: "5", name: 'A', description: "item description", unit_price: "5545", merchant_id: 12},
+                           {id: "10", name: 'B', description: "item description", unit_price: "1234", merchant_id: 13},
+                           {id: "2", name: 'C', description: "item description", unit_price: "5734", merchant_id: 12},
+                          ]
+    invoice_attributes = [{id: "5", customer_id: "1", merchant_id: "12" ,status: "shipped", created_at: "2012-03-25 09:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
+    customer_attributes = [{id: "1", first_name: "Joey", last_name: "Ondricka", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
+    transaction_attributes = [{id: "1", invoice_id: "5", result: "success", credit_card_number: "4654405418249632", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"},
+    													{id: "2", invoice_id: "5", result: "failed", credit_card_number: "4654405418239632", created_at: "2012-03-28 14:54:09 UTC", updated_at: "2012-03-28 14:54:09 UTC"}]
+    invoice_item_attributes = [{id: "1", quantity: "5", unit_price: "5545", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC", item_id: "5", invoice_id: "5"}]
+
     @engine                     = SalesEngine.new
-    @merchant_repo              = MerchantRepository.new(@engine, attributes.fetch(:merchants_attributes, []))
-    @item_repo                  = ItemRepository.new(@engine, attributes.fetch(:items_attributes, []))
+    @merchant_repo              = MerchantRepository.new(@engine, merchants_attributes)
+    @item_repo                  = ItemRepository.new(@engine, items_attributes)
+    @invoice_repo								= InvoiceRepository.new(@engine, invoice_attributes)
+    @invoice_items_repo					= InvoiceItemRepository.new(@engine, invoice_item_attributes)
+    @customer_repo							= CustomerRepository.new(@engine, customer_attributes)
+    @transaction_repo 					= TransactionRepository.new(@engine, transaction_attributes)
+
     @engine.merchant_repository = @merchant_repo
     @engine.item_repository     = @item_repo
+    @engine.invoice_repository  = @invoice_repo
+    @engine.invoice_item_repository = @invoice_items_repo
+    @engine.customer_repository = @customer_repo
+    @engine.transaction_repository = @transaction_repo
+
+    @merchant = @merchant_repo.all.first
+    @customer = @customer_repo.all.first
+    @item     = @item_repo.all.first
+    @invoice_item = @invoice_items_repo.all.first
+    @invoice  = @invoice_repo.all.first
   end
 
 	def test_it_knows_what_items_are_associated_with_it
-    set_world merchants_attributes: [{id: 12}],
-              items_attributes:     [{name: 'A', merchant_id: 12},
-                                     {name: 'B', merchant_id: 13},
-                                     {name: 'C', merchant_id: 12},
-                                    ]
 
-    merchant = @merchant_repo.all.first
     assert_equal ['A', 'C'], merchant.items.map { |item| item.name }
 	end
 
 	def test_it_knows_what_invoices_are_associated_with_it
-		assert_equal 59, merchant.invoices.size
+		assert_equal 1, merchant.invoices.size
 	end
 
 	def test_it_can_get_revenue_for_a_specific_date
-		assert_equal "17694", merchant.revenue("2012-03-27")
+		assert_equal 275, merchant.revenue("2012-03-27")
 	end
 
 	def test_it_can_get_total_revenue
-		assert_equal "528187", merchant.revenue
+		assert_equal 275, merchant.revenue
 	end
 
 	def test_it_can_return_customers_with_pending_invoices
-		assert_equal 19, merchant.customers_with_pending_invoices.size
+		assert_equal 1, merchant.customers_with_pending_invoices.size
 	end
 
 	def test_it_can_return_its_favorite_customer
-		assert_equal "Albina", merchant.favorite_customer.first_name
+		assert_equal "Joey", merchant.favorite_customer.first_name
 	end
 
 	def test_it_can_get_total_revenue_with_stubs
@@ -58,54 +79,53 @@ class AssociationsTest < Minitest::Test
 		invoice_item_2.expect :item_revenue, "30"
 
 		merchant.stub :invoices, [ invoice ] do
-			assert_equal "35", merchant.revenue
+			assert_equal 35, merchant.revenue
 		end
 	end
 
-	#these are all broken:
 	def test_it_returns_all_associated_invoices
-    assert_equal 8, customer.invoices.size
+    assert_equal 1, customer.invoices.size
   end
 
   def test_it_returns_an_array_of_a_customers_tranactions
-    assert_equal 8, customer.transactions.count
+    assert_equal 1, customer.transactions.count
   end
 
-  def test_favorite_merchant_returns_merchant_with_most_successful_tranactions
-    skip
-    assert_equal 11, customer.favorite_merchant
-  end
+ #  def test_favorite_merchant_returns_merchant_with_most_successful_tranactions
+ #    skip
+ #    assert_equal 11, customer.favorite_merchant
+ #  end
 
   def test_it_can_find_related_invoice_items
-		assert_equal 24, item.invoice_items.size
+		assert_equal 1, item.invoice_items.size
 	end
 
 	def test_it_can_find_related_merchants
-		assert_equal "schroeder-jerde", item.merchant.name
+		assert_equal "merchant name", item.merchant.name
 	end
 
 	def test_it_returns_an_items_best_day
 		assert_equal "2012-03-27", item.best_day
 	end
 
-	def test_it_can_get_top_x_merchants_by_revenue
-		assert_equal "bob", merchant_repository.most_revenue(3).first.name
-	end
+	# def test_it_can_get_top_x_merchants_by_revenue
+	# 	assert_equal "bob", merchant_repository.most_revenue(3).first.name
+	# end
 
 	def test_it_knows_its_own_items
-    assert_equal 12,  invoice_item.first.item.merchant_id
+    assert_equal 12,  invoice_item.item.merchant_id
   end
 
   def test_it_knows_associated_transactions
-		assert_equal 1, invoice.transactions.size
+		assert_equal 2, invoice.transactions.size
 	end
 
 	def test_it_knows_associated_invoice_items
-		assert_equal 8, invoice.invoice_items.size
+		assert_equal 1, invoice.invoice_items.size
 	end
 
 	def test_it_knows_all_items_by_way_of_invoice_item
-		assert_equal 8, invoice.items.size
+		assert_equal 1, invoice.items.size
 	end
 
 	def test_it_knows_associated_customer_with_self
@@ -113,10 +133,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_knows_associated_merchant_with_self
-		assert_equal "balistreri, schaefer and kshlerin", invoice.merchant.name
+		assert_equal "merchant name", invoice.merchant.name
 	end
 
-	def test_it_can_find_its_invoice
-    assert_equal "26", sample.first.invoice.merchant_id
-  end
 end

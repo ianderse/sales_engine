@@ -74,7 +74,7 @@ class Merchant
           end
         end
       end
-      total.to_s
+      total
       #need to return as BigDecimal object
   end
 
@@ -101,7 +101,7 @@ class Merchant
           end
         end
       end
-      total.to_s
+      total
       #need to return as BigDecimal object
   end
 
