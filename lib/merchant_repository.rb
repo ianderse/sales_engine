@@ -47,10 +47,7 @@ class MerchantRepository
   end
 
   def most_revenue(num)
-    # all.each do |merchant|
-    #   merhant.revenue
-    # end
-    all.sort_by {|merchant| merchant.revenue}.take(num)
+    all.sort {|merchant| merchant.revenue.to_i}.reverse.take(num)
   end
 
   def most_items(num)

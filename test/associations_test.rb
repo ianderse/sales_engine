@@ -7,17 +7,24 @@ class AssociationsTest < Minitest::Test
 	attr_reader :merchant, :customer, :item, :invoice_item, :invoice
 
   def setup
-  	merchants_attributes = [{name: 'Merchant Name', id: 12}]
+  	merchants_attributes = [{name: 'Merchant number 1', id: "12"},
+  													{name: 'Merchant number 2', id: "5"}]
 
     items_attributes =     [{id: "5", name: 'A', description: "item description", unit_price: "5545", merchant_id: 12},
                            {id: "10", name: 'B', description: "item description", unit_price: "1234", merchant_id: 13},
-                           {id: "2", name: 'C', description: "item description", unit_price: "5734", merchant_id: 12},
-                          ]
-    invoice_attributes = [{id: "5", customer_id: "1", merchant_id: "12" ,status: "shipped", created_at: "2012-03-25 09:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
+                           {id: "2", name: 'C', description: "item description", unit_price: "1000", merchant_id: 12}]
+
+    invoice_attributes = [{id: "5", customer_id: "1", merchant_id: "12" ,status: "shipped", created_at: "2012-03-25 09:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"},
+    											{id: "2", customer_id: "1", merchant_id: "5" ,status: "shipped", created_at: "2012-03-25 09:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
+
     customer_attributes = [{id: "1", first_name: "Joey", last_name: "Ondricka", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
+
     transaction_attributes = [{id: "1", invoice_id: "5", result: "success", credit_card_number: "4654405418249632", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"},
-    													{id: "2", invoice_id: "5", result: "failed", credit_card_number: "4654405418239632", created_at: "2012-03-28 14:54:09 UTC", updated_at: "2012-03-28 14:54:09 UTC"}]
-    invoice_item_attributes = [{id: "1", quantity: "5", unit_price: "5545", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC", item_id: "5", invoice_id: "5"}]
+    													{id: "2", invoice_id: "5", result: "failed", credit_card_number: "4654405418239632", created_at: "2012-03-28 14:54:09 UTC", updated_at: "2012-03-28 14:54:09 UTC"},
+    													{id: "2", invoice_id: "2", result: "success", credit_card_number: "4654405428239632", created_at: "2012-03-28 14:54:09 UTC", updated_at: "2012-03-28 14:54:09 UTC"}]
+
+    invoice_item_attributes = [{id: "1", quantity: "5", unit_price: "5000", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC", item_id: "5", invoice_id: "5"},
+    													 {id: "2", quantity: "5", unit_price: "1000", created_at: "2012-03-25 14:54:09 UTC", updated_at: "2012-03-25 14:54:09 UTC", item_id: "2", invoice_id: "2"}]
 
     @engine                     = SalesEngine.new
     @merchant_repo              = MerchantRepository.new(@engine, merchants_attributes)
@@ -51,11 +58,11 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_can_get_revenue_for_a_specific_date
-		assert_equal 275, merchant.revenue("2012-03-27")
+		assert_equal BigDecimal.new("25000"), merchant.revenue("2012-03-27")
 	end
 
 	def test_it_can_get_total_revenue
-		assert_equal 275, merchant.revenue
+		assert_equal BigDecimal.new("25000"), merchant.revenue
 	end
 
 	def test_it_can_return_customers_with_pending_invoices
@@ -67,6 +74,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_can_get_total_revenue_with_stubs
+		skip
 		invoice = Minitest::Mock.new
 		invoice_item = Minitest::Mock.new
 		invoice_item_2 = Minitest::Mock.new
@@ -84,11 +92,11 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_returns_all_associated_invoices
-    assert_equal 1, customer.invoices.size
+    assert_equal 2, customer.invoices.size
   end
 
   def test_it_returns_an_array_of_a_customers_tranactions
-    assert_equal 1, customer.transactions.count
+    assert_equal 2, customer.transactions.count
   end
 
  #  def test_favorite_merchant_returns_merchant_with_most_successful_tranactions
@@ -101,16 +109,16 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_can_find_related_merchants
-		assert_equal "merchant name", item.merchant.name
+		assert_equal "merchant number 1", item.merchant.name
 	end
 
 	def test_it_returns_an_items_best_day
 		assert_equal "2012-03-27", item.best_day
 	end
 
-	# def test_it_can_get_top_x_merchants_by_revenue
-	# 	assert_equal "bob", merchant_repository.most_revenue(3).first.name
-	# end
+	def test_it_can_get_top_x_merchants_by_revenue
+		assert_equal "merchant number 1", @merchant_repo.most_revenue(3).first.name
+	end
 
 	def test_it_knows_its_own_items
     assert_equal 12,  invoice_item.item.merchant_id
@@ -133,7 +141,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_knows_associated_merchant_with_self
-		assert_equal "merchant name", invoice.merchant.name
+		assert_equal "merchant number 1", invoice.merchant.name
 	end
 
 end

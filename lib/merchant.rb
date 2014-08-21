@@ -69,7 +69,7 @@ class Merchant
         invoice.transactions.each do |transaction|
           if transaction.successful_transaction?
             invoice.invoice_items.each do |item|
-              total += item.item_revenue.to_i
+              total += item.item_revenue
             end
           end
         end
@@ -96,7 +96,7 @@ class Merchant
       invoice.transactions.each do |transaction|
           if transaction.successful_transaction?
             invoice.invoice_items.each do |item|
-              total += item.item_revenue.to_i
+              total += item.item_revenue
             end
           end
         end
