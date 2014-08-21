@@ -92,4 +92,6 @@ class AssociationsTest < Minitest::Test
 		assert_equal "bob", merchant_repository.most_revenue(3).first.name
 	end
 
+	
+
 end
