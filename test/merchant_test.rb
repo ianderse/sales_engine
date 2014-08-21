@@ -52,8 +52,8 @@ class MerchantTest < Minitest::Test
 		assert_equal 19, merchant.customers_with_pending_invoices.size
 	end
 
-		def test_it_can_return_its_favorite_customer
-		assert_equal "Parker", merchant.favorite_customer.first_name
+	def test_it_can_return_its_favorite_customer
+		assert_equal "Albina", merchant.favorite_customer.first_name
 	end
 
 	def test_it_can_get_total_revenue_with_stubs

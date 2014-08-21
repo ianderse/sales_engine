@@ -48,8 +48,14 @@ class MerchantRepository
     engine.find_invoices_by_merchant_id(id)
   end
 
-  def find_invoices_by_date(date)
-
+  def most_revenue(num)
+    # all.each do |merchant|
+    #   merhant.revenue
+    # end
+    all.sort_by {|merchant| merchant.revenue}.take(num)
   end
 
+  def most_items(num)
+
+  end
 end

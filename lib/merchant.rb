@@ -36,7 +36,7 @@ class Merchant
 
   def successful_customer_sort(successful_customers)
     customer_names = []
-    successful_customers.group_by {|customer| customer.first_name}.values.max_by(&:size).first
+    successful_customers.group_by {|customer| customer.last_name}.values.max_by(&:size).first
   end
 
   def customers_with_pending_invoices

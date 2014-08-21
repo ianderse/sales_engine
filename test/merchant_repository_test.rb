@@ -32,4 +32,8 @@ class MerchantRepositoryTest < Minitest::Test
 	  result = merchant_repository.find_all_by_name("Williamson group")
 	  assert_equal 2, result.count
 	end
+
+	def test_it_can_get_top_x_merchants_by_revenue
+		assert_equal "bob", merchant_repository.most_revenue(3).first.name
+	end
 end
