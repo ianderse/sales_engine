@@ -2,7 +2,7 @@ require 'bigdecimal'
 require_relative 'date_handler'
 
 class Item
-  attr_reader :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :repo  # => nil
+  attr_reader :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :repo
 
   def initialize(params, repo)
     @id          = params[:id].to_i

@@ -6,12 +6,13 @@ class ItemRepositoryTest < Minitest::Test
 	attr_reader :items
 
 	def setup
-		@items = ItemRepository.new(SalesEngine.new)
+		item_attributes = [{id: "1", name: "Item Name", description: "Item Description", unit_price: "5523", merchant_id: "1" }]
+		@items = ItemRepository.new(SalesEngine.new, item_attributes)
 	end
 
 	def test_it_returns_all_items
 		results = items.all
-		assert_equal 2483, items.all.count
+		assert_equal 1, items.all.count
 	end
 
 	def test_it_returns_a_random_element
@@ -19,28 +20,28 @@ class ItemRepositoryTest < Minitest::Test
 	end
 
 	def test_you_can_find_by_id
-		results = items.find_by_id("30")
-		assert_equal "Item Eos Quia", results.name
+		results = items.find_by_id(1)
+		assert_equal "Item Name", results.name
 	end
 
 	def test_you_can_find_by_name
-		results = items.find_by_name("Item Quisquam Dolorem")
-		assert_equal "101", results.id
+		results = items.find_by_name("Item Name")
+		assert_equal 1, results.id
 	end
 
 	def test_you_can_find_by_description
-		description = "Iusto ratione illum. Adipisci est perspiciatis temporibus. Ducimus id dolorem voluptas eligendi repellat iure sit."
+		description = "Item Description"
 		results = items.find_by_description(description)
-		assert_equal "11", results.id
+		assert_equal 1, results.id
 	end
 
 	def test_you_can_find_by_unit_price
-		results = items.find_by_unit_price(BigDecimal.new("935.19"))
-		assert_equal "1720", results.id
+		results = items.find_by_unit_price(BigDecimal.new("55.23"))
+		assert_equal 1, results.id
 	end
 
 	def test_you_can_find_by_merchant_id
-		results = items.find_by_merchant_id("2")
-		assert_equal "16", results.id
+		results = items.find_by_merchant_id(1)
+		assert_equal 1, results.id
 	end
 end
