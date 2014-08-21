@@ -115,4 +115,8 @@ class AssociationsTest < Minitest::Test
 	def test_it_knows_associated_merchant_with_self
 		assert_equal "balistreri, schaefer and kshlerin", invoice.merchant.name
 	end
+
+	def test_it_can_find_its_invoice
+    assert_equal "26", sample.first.invoice.merchant_id
+  end
 end
