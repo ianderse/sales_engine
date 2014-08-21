@@ -6,9 +6,8 @@ class ItemRepositoryTest < Minitest::Test
 	attr_reader :items
 
 	def setup
-		@engine = SalesEngine.new
-		item_attrubutes = [{id: 1, name: "Item Qui Esse", description: "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro.", unit_price: 75107, merchant_id: 1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC"}]
-		@items = ItemRepository.new(@engine, item_attrubutes)
+		item_attributes = [{id: "1", name: "Item Name", description: "Item Description", unit_price: "5523", merchant_id: "1" }]
+		@items = ItemRepository.new(SalesEngine.new, item_attributes)
 	end
 
 	def test_it_returns_all_items
@@ -22,22 +21,22 @@ class ItemRepositoryTest < Minitest::Test
 
 	def test_you_can_find_by_id
 		results = items.find_by_id(1)
-		assert_equal "Item Qui Esse", results.name
+		assert_equal "Item Name", results.name
 	end
 
 	def test_you_can_find_by_name
-		results = items.find_by_name("Item Qui Esse")
+		results = items.find_by_name("Item Name")
 		assert_equal 1, results.id
 	end
 
 	def test_you_can_find_by_description
-		description = "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro."
+		description = "Item Description"
 		results = items.find_by_description(description)
 		assert_equal 1, results.id
 	end
 
 	def test_you_can_find_by_unit_price
-		results = items.find_by_unit_price(BigDecimal.new("751.07"))
+		results = items.find_by_unit_price(BigDecimal.new("55.23"))
 		assert_equal 1, results.id
 	end
 

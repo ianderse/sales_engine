@@ -61,6 +61,7 @@ class AssociationsTest < Minitest::Test
 			assert_equal "35", merchant.revenue
 		end
 	end
+
 	#these are all broken:
 	def test_it_returns_all_associated_invoices
     assert_equal 8, customer.invoices.size
@@ -74,5 +75,21 @@ class AssociationsTest < Minitest::Test
     skip
     assert_equal 11, customer.favorite_merchant
   end
+
+  def test_it_can_find_related_invoice_items
+		assert_equal 24, item.invoice_items.size
+	end
+
+	def test_it_can_find_related_merchants
+		assert_equal "schroeder-jerde", item.merchant.name
+	end
+
+	def test_it_returns_an_items_best_day
+		assert_equal "2012-03-27", item.best_day
+	end
+
+	def test_it_can_get_top_x_merchants_by_revenue
+		assert_equal "bob", merchant_repository.most_revenue(3).first.name
+	end
 
 end

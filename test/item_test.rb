@@ -5,45 +5,33 @@ require_relative '../lib/csv_handler'
 require_relative '../lib/sales_engine'
 
 class ItemTest < Minitest::Test
-	attr_reader :sample
+	attr_reader :item
 
   def setup
 		@engine = SalesEngine.new
-		@engine.startup
-	  csv = CsvHandler.new("./data/items.csv")
-	  @sample = csv.data.collect {|row| Item.new(row, @engine.item_repository)}
+		item_attributes = [{id: "1", name: "Item Name", description: "Item Description", unit_price: "5523", merchant_id: "1", created_at: "2012-03-27 14:53:59 UTC" }]
+    @items = ItemRepository.new(@engine, item_attributes)
+    @item = @items.all.first
 	end
 
 	def test_it_returns_a_name
-		assert_equal "Item Qui Esse", sample.first.name
+		assert_equal "Item Name", item.name
 	end
 
 	def test_it_returns_an_id
-		assert_equal "1", sample.first.id
+		assert_equal 1, item.id
 	end
 
 	def test_it_returns_a_big_decimal_object
-		assert_instance_of BigDecimal, sample.first.unit_price
+		assert_instance_of BigDecimal, item.unit_price
 	end
 
 	def test_it_returns_a_mercahnt_id
-		assert_equal "1", sample.first.merchant_id
+		assert_equal 1, item.merchant_id
 	end
 
 	def test_it_returns_created_at
-		assert_equal "2012-03-27 14:53:59 UTC", sample.first.created_at
-	end
-
-	def test_it_can_find_related_invoice_items
-		assert_equal 24, sample.first.invoice_items.size
-	end
-
-	def test_it_can_find_related_merchants
-		assert_equal "schroeder-jerde", sample.first.merchant.name
-	end
-
-	def test_it_returns_an_items_best_day
-		assert_equal "2012-03-27", sample.first.best_day
+		assert_equal "2012-03-27 14:53:59 UTC", item.created_at
 	end
 
 end
