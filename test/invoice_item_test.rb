@@ -5,42 +5,37 @@ require_relative '../lib/csv_handler'
 require_relative '../lib/sales_engine'
 
 class InvoiceItemTest < Minitest::Test
-  attr_reader :sample
+  attr_reader :invoice_item
 
   def setup
     @engine = SalesEngine.new
-    @engine.startup
-
-    csv = CsvHandler.new("./data/invoice_items.csv")
-    @sample = csv.data.collect {|row| InvoiceItem.new(row, @engine.invoice_item_repository)}
+    invoice_item_attributes = [{id: "1", quantity: "5", unit_price: "5545", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC", item_id: "5", invoice_id: "12"}]
+    @invoice_items = InvoiceItemRepository.new(@engine, invoice_item_attributes)
+    @invoice_item = @invoice_items.all.first
   end
 
   def test_it_returns_an_id
-    assert_equal "1", sample.first.id
+    assert_equal 1, invoice_item.id
   end
 
   def test_it_returns_a_big_decimal_object
-    assert_instance_of BigDecimal, sample.first.unit_price
+    assert_instance_of BigDecimal, invoice_item.unit_price
   end
 
   def test_it_returns_created_at
-    assert_equal "2012-03-27 14:54:09 UTC", sample.first.created_at
+    assert_equal "2012-03-27 14:54:09 UTC", invoice_item.created_at
   end
 
   def test_it_returns_updated_at
-   assert_equal "2012-03-27 14:54:09 UTC", sample.first.created_at
+   assert_equal "2012-03-27 14:54:09 UTC", invoice_item.created_at
   end
 
   def test_it_returns_item_id
-    assert_equal "539", sample.first.item_id
+    assert_equal 5, invoice_item.item_id
   end
 
   def test_it_returns_invoice_id
-    assert_equal "1", sample.first.invoice_id
-  end
-
-  def test_it_knows_its_own_items
-    assert_equal "26",  sample.first.item.merchant_id
+    assert_equal 12, invoice_item.invoice_id
   end
 
 end

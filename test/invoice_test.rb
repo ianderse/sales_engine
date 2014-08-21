@@ -35,4 +35,5 @@ class InvoiceTest < Minitest::Test
 
 	def test_it_returns_updated_at
 		assert_equal "2012-03-25 09:54:09 UTC", invoice.updated_at
-	end
+	end	
+end

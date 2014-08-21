@@ -92,6 +92,27 @@ class AssociationsTest < Minitest::Test
 		assert_equal "bob", merchant_repository.most_revenue(3).first.name
 	end
 
-	
+	def test_it_knows_its_own_items
+    assert_equal 12,  invoice_item.first.item.merchant_id
+  end
 
+  def test_it_knows_associated_transactions
+		assert_equal 1, invoice.transactions.size
+	end
+
+	def test_it_knows_associated_invoice_items
+		assert_equal 8, invoice.invoice_items.size
+	end
+
+	def test_it_knows_all_items_by_way_of_invoice_item
+		assert_equal 8, invoice.items.size
+	end
+
+	def test_it_knows_associated_customer_with_self
+		assert_equal "Joey", invoice.customer.first_name
+	end
+
+	def test_it_knows_associated_merchant_with_self
+		assert_equal "balistreri, schaefer and kshlerin", invoice.merchant.name
+	end
 end
