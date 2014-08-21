@@ -82,8 +82,6 @@ class SalesEngine
 
 end
 
-
-
 if __FILE__ == $0
   engine = SalesEngine.new
   engine.startup
