@@ -44,6 +44,6 @@ class Item
         end
       end
     end
-    DateHandler.new(best_invoice.created_at).date
+    DateHandler.new(best_invoice.created_at).to_time
   end
 end

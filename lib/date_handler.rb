@@ -11,4 +11,8 @@ class DateHandler
     @date = split_date[0]
   end
 
+  def to_time
+  	Time.new(year.to_i,month.to_i,day.to_i)
+  end
+
 end
