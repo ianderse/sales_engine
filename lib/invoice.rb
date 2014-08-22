@@ -36,6 +36,10 @@ class Invoice
     repo.find_merchant_by_merchant_id(self.merchant_id)
   end
 
+  def successful_transaction?
+    transactions.any? {|transaction| transaction.successful_transaction?}
+  end
+
   def items
     invoice_items.collect do |invoice_item|
       invoice_item.item

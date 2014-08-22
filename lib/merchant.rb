@@ -44,15 +44,15 @@ class Merchant
 
   def customers_with_pending_invoices
     #refactor this shiz
+    #go through each invoice_id, if it has a success it is not pending
     failed_customers = []
 
     invoices.each do |invoice|
-      invoice.transactions.each do |transaction|
-        if !transaction.successful_transaction?
-          failed_customers << transaction.invoice.customer
-        end
+      if !invoice.successful_transaction?
+        failed_customers << invoice.customer
       end
     end
+
     failed_customers.uniq
   end
 

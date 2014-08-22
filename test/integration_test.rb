@@ -21,4 +21,17 @@ class IntegrationTest < Minitest::Test
 
 	end
 
+	def test_it_can_find_pending_invoices_for_specific_merchants
+		@engine = SalesEngine.new
+		@engine.startup
+		merchant = @engine.merchant_repository.find_by_name("Parisian Group")
+		customers = merchant.customers_with_pending_invoices
+
+		customers.each do |customer|
+			p customer.last_name
+		end
+		assert_equal 4, customers.count
+
+	end
+
 end
