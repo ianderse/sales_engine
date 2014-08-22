@@ -69,13 +69,6 @@ class ItemRepository
   end
 
   def most_revenue(num)
-    #returns the top num items ranked by total revenue generated
-    #get all invoices
-    #get all invoice_items
-    #get item_revenue for each invoice_item
-    #add up item_revenue for items with same id
-    #all.sort {|item| item.invoice_items.item_revenue.to_i}.reverse.take(num)
-
     all.each do |item|
       item.invoice_items.sort {|invoice_item| invoice_item.item_revenue.to_i}.reverse.take(num).map do |invoice_item|
         invoice_item.item
@@ -84,6 +77,8 @@ class ItemRepository
   end
 
   def most_items(num)
-    #returns the top num items ranked by total number sold
+  	all.each do |item|
+  		item.invoice_items.group_by {|invoice_item| invoice_item.item.name}.values.reverse.take(num)#.max_by(&:size)#.take(num)
+  	end
   end
 end

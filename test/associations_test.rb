@@ -156,4 +156,9 @@ class AssociationsTest < Minitest::Test
 		assert_equal "A", @item_repo.most_revenue(2).first.name
 	end
 
+	def test_item_repo_can_get_most_sold_items
+		assert_equal "A", @item_repo.most_items(2).first.name
+		#p @item_repo.most_items(2)
+	end
+
 end
