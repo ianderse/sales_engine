@@ -1,18 +1,24 @@
-require 'csv'
 
 class Invoice
 
- attr_reader :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :repo
+ attr_reader :id,
+             :customer_id,
+             :merchant_id,
+             :status,
+             :created_at,
+             :updated_at,
+             :repo
+
  def initialize(params, repo)
- 	  @id          = params[:id].to_i
- 	  @customer_id = params[:customer_id].to_i
- 	  @merchant_id = params[:merchant_id].to_i
- 	  @status      = params[:status]
+    @id          = params[:id].to_i
+    @customer_id = params[:customer_id].to_i
+    @merchant_id = params[:merchant_id].to_i
+    @status      = params[:status]
     #to_date
- 	  @created_at  = params[:created_at]
- 	  @updated_at  = params[:updated_at]
+    @created_at  = params[:created_at]
+    @updated_at  = params[:updated_at]
     @repo        = repo
- 	end
+  end
 
   def transactions
     repo.find_transactions_by_invoice_id(self.id)

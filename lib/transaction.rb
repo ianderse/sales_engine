@@ -1,5 +1,12 @@
 class Transaction
-  attr_reader :id, :invoice_id, :cc_number, :cc_expiration, :result, :created_at, :updated_at, :repo
+  attr_reader :id,
+              :invoice_id,
+              :cc_number,
+              :cc_expiration,
+              :result,
+              :created_at,
+              :updated_at,
+              :repo
 
   def initialize(params, repo)
     @id          = params[:id].to_i

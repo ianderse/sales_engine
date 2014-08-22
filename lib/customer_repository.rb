@@ -5,9 +5,9 @@ require_relative 'customer'
 class CustomerRepository
   attr_reader :customers, :engine
 
-  def initialize(engine, customers_attributes)
+  def initialize(engine, customer_details)
     @engine = engine
-    @customers = customers_attributes.collect {|params| Customer.new(params, self)}
+    @customers = customer_details.collect {|params| Customer.new(params, self)}
   end
 
   def all

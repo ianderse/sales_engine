@@ -23,21 +23,23 @@ class Merchant
   end
 
   def favorite_customer
-   successful_customers = []
+   successful_transactions = []
 
     invoices.each do |invoice|
       invoice.transactions.each do |transaction|
         if transaction.successful_transaction?
-          successful_customers << transaction.invoice.customer
+          successful_transactions << transaction.invoice.customer
         end
       end
     end
-    successful_customer_sort(successful_customers)
+    successful_customer_sort(successful_transactions)
   end
 
-  def successful_customer_sort(successful_customers)
+  def successful_customer_sort(customers)
     customer_names = []
-    successful_customers.group_by {|customer| customer.last_name}.values.max_by(&:size).first
+    customers.group_by {|customer| customer.last_name}
+             .values.max_by(&:size)
+             .first
   end
 
   def customers_with_pending_invoices
@@ -63,7 +65,7 @@ class Merchant
   end
 
   def total_revenue
-    #need to check if invoice result is failed, if so do not include them in the calc.
+  #check if invoice result is failed, if so do not include them in the calc.
     total = 0
       invoices.each do |invoice|
         invoice.transactions.each do |transaction|
@@ -79,12 +81,12 @@ class Merchant
   end
 
   def revenue_on_date(date)
-    #need to check if invoice result is failed, if so do not include them in the calc.
+    #check if invoice result is failed, if so do not include them in the calc.
     #refactor the shit out of this and the previous method
     invoices_on_date = []
 
     invoices.each do |invoice|
-      if DateHandler.new(invoice.created_at).date == date || DateHandler.new(invoice.updated_at).date == date
+      if created_at_date?(invoice, date) || updated_at_date?(invoice, date)
         invoices_on_date << invoice
       end
     end
@@ -104,6 +106,16 @@ class Merchant
       total
       #need to return as BigDecimal object
   end
+
+  def created_at_date?(invoice, date)
+    DateHandler.new(invoice.created_at).date == date
+
+  end
+
+  def updated_at_date?(invoice, date)
+    DateHandler.new(invoice.updated_at).date == date
+  end
+
 
   def items_sold
     total = 0

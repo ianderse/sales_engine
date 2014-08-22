@@ -5,9 +5,9 @@ require_relative '../lib/transaction'
 class TransactionRepository
   attr_reader :transactions, :engine
 
-  def initialize(engine, transaction_attributes)
+  def initialize(engine, transactions_info)
     @engine = engine
-    @transactions = transaction_attributes.collect {|params| Transaction.new(params, self)}
+    @transactions = transactions_info.map {|info| Transaction.new(info, self)}
   end
 
   def all

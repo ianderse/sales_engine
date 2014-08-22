@@ -13,7 +13,7 @@ class Customer
   end
 
   def invoices
-  	repo.find_invoices_by_customer_id(self.id)
+    repo.find_invoices_by_customer_id(self.id)
   end
 
   def transactions
@@ -22,5 +22,4 @@ class Customer
 
   def favorite_merchant
   end
-
 end

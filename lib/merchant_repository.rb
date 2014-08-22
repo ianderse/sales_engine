@@ -3,19 +3,19 @@ require_relative "merchant"
 require_relative "../lib/csv_handler"
 
 class MerchantRepository
-	attr_reader :merchants, :engine
+  attr_reader :merchants, :engine
 
-  def initialize(engine, merchants_attributes)
+  def initialize(engine, merchant_details)
     @engine = engine
-    @merchants = merchants_attributes.collect {|params| Merchant.new(params, self)}
+    @merchants = merchant_details.collect {|params| Merchant.new(params, self)}
   end
 
   def all
-  	merchants
+    merchants
   end
 
   def random
-  	merchants.sample
+    merchants.sample
   end
 
   def find_by_id(id)
