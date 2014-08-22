@@ -70,7 +70,7 @@ class ItemRepository
 
   def most_revenue(num)
     all.each do |item|
-      item.invoice_items.sort {|invoice_item| invoice_item.item_revenue.to_i}.reverse.take(num).map do |invoice_item|
+      item.invoice_items.sort {|invoice_item| invoice_item.item_revenue.to_i}.take(num).map do |invoice_item|
         invoice_item.item
       end
     end
@@ -78,7 +78,7 @@ class ItemRepository
 
   def most_items(num)
   	all.each do |item|
-  		item.invoice_items.group_by {|invoice_item| invoice_item.item.name}.values.reverse.take(num)#.max_by(&:size)#.take(num)
+  		item.invoice_items.group_by {|invoice_item| invoice_item.item.name}.values.take(num)#.max_by(&:size)#.take(num)
   	end
   end
 end
