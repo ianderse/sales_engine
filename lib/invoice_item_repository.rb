@@ -12,6 +12,10 @@ class InvoiceItemRepository
     @invoice_items = invoice_items.collect {|item| InvoiceItem.new(item, self)}
   end
 
+  def inspect
+    "#<#{self.class} #{@invoice_items.size} rows>"
+  end
+
   def all
     invoice_items
   end

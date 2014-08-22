@@ -21,5 +21,6 @@ class Customer
   end
 
   def favorite_merchant
+
   end
 end

@@ -10,6 +10,10 @@ class CustomerRepository
     @customers = customer_details.collect {|params| Customer.new(params, self)}
   end
 
+  def inspect
+    "#<#{self.class} #{@customers.size} rows>"
+  end
+
   def all
     customers
   end

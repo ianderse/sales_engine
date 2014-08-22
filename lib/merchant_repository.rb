@@ -10,6 +10,11 @@ class MerchantRepository
     @merchants = merchant_details.collect {|params| Merchant.new(params, self)}
   end
 
+  def inspect
+    "#<#{self.class} #{@merchants.size} rows>"
+  end
+
+
   def all
     merchants
   end
@@ -23,7 +28,7 @@ class MerchantRepository
   end
 
   def find_by_name(name)
-    merchants.detect {|merchant| merchant.name == name.downcase}
+    merchants.detect {|merchant| merchant.name.downcase == name.downcase}
   end
 
   def find_by_created_at(created_at)
@@ -31,7 +36,7 @@ class MerchantRepository
   end
 
   def find_all_by_name(name)
-    merchants.select {|merchant| merchant.name == name.downcase}
+    merchants.select {|merchant| merchant.name.downcase == name.downcase}
   end
 
   def find_all_by_created_at(created_at)

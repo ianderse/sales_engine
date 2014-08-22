@@ -10,6 +10,10 @@ class InvoiceRepository
     @invoices = invoices_attributes.collect {|params| Invoice.new(params, self)}
   end
 
+  def inspect
+    "#<#{self.class} #{@invoices.size} rows>"
+  end
+
   def all
     invoices
   end

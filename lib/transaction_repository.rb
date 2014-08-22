@@ -10,6 +10,10 @@ class TransactionRepository
     @transactions = transactions_info.map {|info| Transaction.new(info, self)}
   end
 
+  def inspect
+    "#<#{self.class} #{@transactions.size} rows>"
+  end
+
   def all
     transactions
   end
