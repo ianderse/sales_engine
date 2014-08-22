@@ -13,7 +13,7 @@ class InvoiceItem
   def initialize(params, repo)
     @id          = params[:id].to_i
     @quantity    = params[:quantity].to_i
-    @unit_price  = BigDecimal.new((params[:unit_price]))
+    @unit_price  = BigDecimal.new((params[:unit_price].to_f/100.00).to_s)
     #to_date
     @created_at  = params[:created_at]
     @updated_at  = params[:updated_at]
