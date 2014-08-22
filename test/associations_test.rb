@@ -67,7 +67,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_can_return_customers_with_pending_invoices
-		assert_equal 1, merchant.customers_with_pending_invoices.size
+		assert_equal 0, merchant.customers_with_pending_invoices.size
 	end
 
 	def test_it_can_return_its_favorite_customer
@@ -114,7 +114,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_returns_an_items_best_day
-		assert_equal Date.new(2012,03,25), item.best_day
+		assert_equal Date.new(2012,03,27), item.best_day
 	end
 
 	def test_it_can_get_top_x_merchants_by_revenue

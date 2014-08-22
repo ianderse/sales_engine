@@ -28,7 +28,7 @@ class IntegrationTest < Minitest::Test
 		customers = merchant.customers_with_pending_invoices
 
 		customers.each do |customer|
-			p customer.last_name
+			customer.last_name
 		end
 		assert_equal 4, customers.count
 
