@@ -37,9 +37,9 @@ class AssociationsTest < Minitest::Test
     @engine.merchant_repository = @merchant_repo
     @engine.item_repository     = @item_repo
     @engine.invoice_repository  = @invoice_repo
-    @engine.invoice_item_repo = @invoice_items_repo
+    @engine.invoice_item_repository = @invoice_items_repo
     @engine.customer_repository = @customer_repo
-    @engine.transaction_repo = @transaction_repo
+    @engine.transaction_repository = @transaction_repo
 
     @merchant = @merchant_repo.all.first
     @customer = @customer_repo.all.first

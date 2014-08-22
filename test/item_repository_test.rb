@@ -36,7 +36,7 @@ class ItemRepositoryTest < Minitest::Test
 	end
 
 	def test_you_can_find_by_unit_price
-		results = items.find_by_unit_price(BigDecimal.new("5523"))
+		results = items.find_by_unit_price(BigDecimal.new("55.23"))
 		assert_equal 1, results.id
 	end
 
