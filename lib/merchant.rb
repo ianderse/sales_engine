@@ -5,7 +5,7 @@ class Merchant
 
   def initialize(params, repo)
     @id          = params[:id].to_i
-    @name        = params[:name].downcase
+    @name        = params[:name]
     #to_date
     @created_at  = params[:created_at]
     @updated_at  = params[:updated_at]
