@@ -72,8 +72,8 @@ class InvoiceItemRepository
     invoice_items.select {|invoice_item| invoice_item.updated_at == updated_at}
   end
 
-  def find_invoice_item_by_invoice_id(id)
-    engine.find_invoice_item_by_invoice_id(id)
+  def find_invoice_by_invoice_id(id)
+    engine.find_invoice_by_invoice_id(id)
   end
 
   def find_item_by_item_id(id)

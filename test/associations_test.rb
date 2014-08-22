@@ -1,3 +1,4 @@
+require 'date'
 require_relative 'test_helper'
 require_relative '../lib/merchant'
 require_relative '../lib/customer'
@@ -73,23 +74,23 @@ class AssociationsTest < Minitest::Test
 		assert_equal "Joey", merchant.favorite_customer.first_name
 	end
 
-	def test_it_can_get_total_revenue_with_stubs
-		skip
-		invoice = Minitest::Mock.new
-		invoice_item = Minitest::Mock.new
-		invoice_item_2 = Minitest::Mock.new
-		transaction = Minitest::Mock.new
-		invoice.expect :transactions, [ transaction ]
-		transaction.expect :result, "success"
-		transaction.expect :successful_transaction?, true
-		invoice.expect :invoice_items, [ invoice_item, invoice_item_2 ]
-		invoice_item.expect :item_revenue, "5"
-		invoice_item_2.expect :item_revenue, "30"
+	# def test_it_can_get_total_revenue_with_stubs
+	# 	skip
+	# 	invoice = Minitest::Mock.new
+	# 	invoice_item = Minitest::Mock.new
+	# 	invoice_item_2 = Minitest::Mock.new
+	# 	transaction = Minitest::Mock.new
+	# 	invoice.expect :transactions, [ transaction ]
+	# 	transaction.expect :result, "success"
+	# 	transaction.expect :successful_transaction?, true
+	# 	invoice.expect :invoice_items, [ invoice_item, invoice_item_2 ]
+	# 	invoice_item.expect :item_revenue, "5"
+	# 	invoice_item_2.expect :item_revenue, "30"
 
-		merchant.stub :invoices, [ invoice ] do
-			assert_equal 35, merchant.revenue
-		end
-	end
+	# 	merchant.stub :invoices, [ invoice ] do
+	# 		assert_equal 35, merchant.revenue
+	# 	end
+	# end
 
 	def test_it_returns_all_associated_invoices
     assert_equal 2, customer.invoices.size
@@ -113,7 +114,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_returns_an_items_best_day
-		assert_equal "2012-03-27", item.best_day
+		assert_equal Date.new(2012,03,27), item.best_day
 	end
 
 	def test_it_can_get_top_x_merchants_by_revenue

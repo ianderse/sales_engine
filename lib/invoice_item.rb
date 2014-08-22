@@ -23,7 +23,7 @@ class InvoiceItem
   end
 
   def invoice
-    repo.find_invoice_item_by_invoice_id(self.invoice_id)
+    repo.find_invoice_by_invoice_id(self.invoice_id)
   end
 
   def item
@@ -32,5 +32,16 @@ class InvoiceItem
 
   def item_revenue
     BigDecimal.new(self.quantity * self.unit_price).truncate(2)
+  end
+
+  #This is potentially totally useless, keeping it just in case:
+  def total_sold
+    sold_items = []
+
+    item.invoice_items.each do |invoice_item|
+      sold_items << invoice_item.item
+    end
+
+    sold_items.group_by {|item| item.name}.values.max_by(&:size)
   end
 end
