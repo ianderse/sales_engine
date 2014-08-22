@@ -11,9 +11,9 @@ class SalesEngine
   attr_accessor :merchant_repository,
                 :invoice_repository,
                 :item_repository,
-                :invoice_item_repo,
+                :invoice_item_repository,
                 :customer_repository,
-                :transaction_repo,
+                :transaction_repository,
                 :dir
 
   def initialize(dir="data")
@@ -31,13 +31,13 @@ class SalesEngine
     @item_repository = ItemRepository.new(self, items_csv.data)
 
     invoice_item_csv = CsvHandler.new("./#{dir}/invoice_items.csv")
-    @invoice_item_repo = InvoiceItemRepository.new(self, invoice_item_csv.data)
+    @invoice_item_repository = InvoiceItemRepository.new(self, invoice_item_csv.data)
 
     customer_csv = CsvHandler.new("./#{dir}/customers.csv")
     @customer_repository = CustomerRepository.new(self, customer_csv.data)
 
     transaction_csv = CsvHandler.new("./#{dir}/transactions.csv")
-    @transaction_repo = TransactionRepository.new(self, transaction_csv.data)
+    @transaction_repository = TransactionRepository.new(self, transaction_csv.data)
   end
 
   def find_items_by_merchant_id(id)
