@@ -8,24 +8,24 @@ class AssociationsTest < Minitest::Test
 	attr_reader :merchant, :customer, :item, :invoice_item, :invoice
 
   def setup
-  	merchants_attributes = [{name: 'Merchant Number 1', id: "12"},
-  													{name: 'Merchant Number 2', id: "5"}]
+  	merchants_attributes = [{name: 'Merchant Number 1', id: "12", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"},
+  													{name: 'Merchant Number 2', id: "5", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
 
-    items_attributes =     [{id: "5", name: 'A', description: "item description", unit_price: "5545", merchant_id: 12},
-                           {id: "10", name: 'B', description: "item description", unit_price: "1234", merchant_id: 13},
-                           {id: "2", name: 'C', description: "item description", unit_price: "1000", merchant_id: 12}]
+    items_attributes =     [{id: "5", name: 'A', description: "item description", unit_price: "5545", merchant_id: 12, created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"},
+                           {id: "10", name: 'B', description: "item description", unit_price: "1234", merchant_id: 13, created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"},
+                           {id: "2", name: 'C', description: "item description", unit_price: "1000", merchant_id: 12, created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
 
-    invoice_attributes = [{id: "5", customer_id: "1", merchant_id: "12" ,status: "shipped", created_at: "2012-03-25 09:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"},
-    											{id: "2", customer_id: "1", merchant_id: "5" ,status: "shipped", created_at: "2012-03-25 09:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
+    invoice_attributes = [{id: "5", customer_id: "1", merchant_id: "12" ,status: "shipped", created_at: "2012-03-27 09:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"},
+    											{id: "2", customer_id: "1", merchant_id: "5" ,status: "shipped", created_at: "2012-03-27 09:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
 
     customer_attributes = [{id: "1", first_name: "Joey", last_name: "Ondricka", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
 
     transaction_attributes = [{id: "1", invoice_id: "5", result: "success", credit_card_number: "4654405418249632", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"},
-    													{id: "2", invoice_id: "5", result: "failed", credit_card_number: "4654405418239632", created_at: "2012-03-28 14:54:09 UTC", updated_at: "2012-03-28 14:54:09 UTC"},
-    													{id: "2", invoice_id: "2", result: "success", credit_card_number: "4654405428239632", created_at: "2012-03-28 14:54:09 UTC", updated_at: "2012-03-28 14:54:09 UTC"}]
+    													{id: "2", invoice_id: "5", result: "failed", credit_card_number: "4654405418239632", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-28 14:54:09 UTC"},
+    													{id: "2", invoice_id: "2", result: "success", credit_card_number: "4654405428239632", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-28 14:54:09 UTC"}]
 
     invoice_item_attributes = [{id: "1", quantity: "5", unit_price: "5000", created_at: "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC", item_id: "5", invoice_id: "5"},
-    													 {id: "2", quantity: "5", unit_price: "1000", created_at: "2012-03-25 14:54:09 UTC", updated_at: "2012-03-25 14:54:09 UTC", item_id: "2", invoice_id: "2"}]
+    													 {id: "2", quantity: "5", unit_price: "1000", created_at: "2012-03-26 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC", item_id: "2", invoice_id: "2"}]
 
     @engine                     = SalesEngine.new
     @merchant_repo              = MerchantRepository.new(@engine, merchants_attributes)
@@ -59,7 +59,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_can_get_revenue_for_a_specific_date
-		assert_equal BigDecimal.new("250.00"), merchant.revenue("2012-03-27")
+		assert_equal BigDecimal.new("250.00"), merchant.revenue(DateHandler.new("2012-03-27").to_date)
 	end
 
 	def test_it_can_get_total_revenue
@@ -114,7 +114,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_returns_an_items_best_day
-		assert_equal Date.new(2012,03,27), item.best_day
+		assert_equal Date.new(2012,03,25), item.best_day
 	end
 
 	def test_it_can_get_top_x_merchants_by_revenue
@@ -150,7 +150,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_merchant_repo_can_get_revenue_on_a_date
-		assert_equal BigDecimal.new("300.00"), @merchant_repo.revenue("2012-03-27")
+		assert_equal BigDecimal.new("300.00"), @merchant_repo.revenue(DateHandler.new("2012-03-27").to_date)
 	end
 
 	def test_item_repo_can_get_total_item_revenue

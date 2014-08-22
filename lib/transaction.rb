@@ -1,3 +1,5 @@
+require_relative 'date_handler'
+
 class Transaction
   attr_reader :id,
               :invoice_id,
@@ -15,8 +17,8 @@ class Transaction
     @cc_expiration  = params[:credit_card_expiration]
     @result      = params[:result]
     #change this using .to_date
-    @created_at  = params[:created_at]
-    @updated_at  = params[:updated_at]
+    @created_at  = DateHandler.new(params[:created_at]).to_date
+    @updated_at  = DateHandler.new(params[:updated_at]).to_date
     @repo = repo
   end
 

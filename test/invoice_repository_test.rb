@@ -40,7 +40,7 @@ class InvoiceRepositoryTest < Minitest::Test
 	end
 
 	def test_it_finds_by_created_at
-		results = repository.find_by_created_at("2012-03-25 09:54:09 UTC")
+		results = repository.find_by_created_at(DateHandler.new("2012-03-25 14:54:09 UTC").to_date)
 		assert_equal 26, results.merchant_id
 	end
 

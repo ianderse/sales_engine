@@ -1,4 +1,4 @@
-
+require_relative 'date_handler'
 class Customer
   attr_reader :id, :first_name, :last_name, :created_at, :updated_at, :repo
 
@@ -7,8 +7,8 @@ class Customer
     @first_name  = params[:first_name]
     @last_name   = params[:last_name]
     #to_date
-    @created_at  = params[:created_at]
-    @updated_at  = params[:updated_at]
+    @created_at  = DateHandler.new(params[:created_at]).to_date
+    @updated_at  = DateHandler.new(params[:updated_at]).to_date
     @repo = repo
   end
 

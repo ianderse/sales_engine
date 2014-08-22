@@ -6,7 +6,7 @@ class MerchantRepositoryTest < Minitest::Test
 	attr_reader :merchant_repository
 
 	def setup
-		merchant_attributes = [{id: "1", name: "Merchant Name"}]
+		merchant_attributes = [{id: "1", name: "Merchant Name", created_at:  "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
 		@merchant_repository = MerchantRepository.new(SalesEngine.new, merchant_attributes)
 	end
 

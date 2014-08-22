@@ -7,8 +7,8 @@ class Merchant
     @id          = params[:id].to_i
     @name        = params[:name]
     #to_date
-    @created_at  = params[:created_at]
-    @updated_at  = params[:updated_at]
+    @created_at  = DateHandler.new(params[:created_at]).to_date
+    @updated_at  = DateHandler.new(params[:updated_at]).to_date
     @repo        = repo
   end
 
@@ -108,12 +108,12 @@ class Merchant
   end
 
   def created_at_date?(invoice, date)
-    DateHandler.new(invoice.created_at).date == date
+    invoice.created_at == date
 
   end
 
   def updated_at_date?(invoice, date)
-    DateHandler.new(invoice.updated_at).date == date
+    invoice.updated_at == date
   end
 
 

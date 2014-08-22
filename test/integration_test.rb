@@ -17,7 +17,8 @@ class IntegrationTest < Minitest::Test
 		item = @engine.item_repository.find_by_name("Item Accusamus Ut")
 
 		#assert_equal "2012-03-27", item.best_day.to_date
-		p item.best_day
+		item.best_day
+
 	end
 
 end

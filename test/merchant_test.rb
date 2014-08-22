@@ -21,11 +21,11 @@ class MerchantTest < Minitest::Test
 	end
 
 	def test_returns_when_merchant_was_created
-		assert_equal "2012-03-27 14:53:59 UTC", merchant.created_at
+		assert_equal DateHandler.new("2012-03-27 14:54:09 UTC").to_date, merchant.created_at
 	end
 
 	def test_returns_when_merchant_was_updated
-		assert_equal "2012-03-27 14:53:59 UTC", merchant.updated_at
+		assert_equal DateHandler.new("2012-03-27 14:54:09 UTC").to_date, merchant.updated_at
 	end
 
 end

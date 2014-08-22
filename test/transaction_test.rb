@@ -31,11 +31,11 @@ class TransactionTest < Minitest::Test
   end
 
   def test_it_returns_a_created_at_date
-    assert_equal "2012-03-27 14:54:09 UTC", transaction.created_at
+    assert_equal DateHandler.new("2012-03-27 14:54:09 UTC").to_date, transaction.created_at
   end
 
   def test_it_returns_an_updated_at_date
-    assert_equal "2012-03-27 14:54:09 UTC", transaction.updated_at
+    assert_equal DateHandler.new("2012-03-27 14:54:09 UTC").to_date, transaction.updated_at
   end
 
 end

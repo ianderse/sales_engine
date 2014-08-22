@@ -23,11 +23,11 @@ class InvoiceItemTest < Minitest::Test
   end
 
   def test_it_returns_created_at
-    assert_equal "2012-03-27 14:54:09 UTC", invoice_item.created_at
+    assert_equal DateHandler.new("2012-03-27 14:54:09 UTC").to_date, invoice_item.created_at
   end
 
   def test_it_returns_updated_at
-   assert_equal "2012-03-27 14:54:09 UTC", invoice_item.created_at
+   assert_equal DateHandler.new("2012-03-27 14:54:09 UTC").to_date, invoice_item.created_at
   end
 
   def test_it_returns_item_id

@@ -67,22 +67,22 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_by_created_at
-    results = transactions.find_by_created_at("2012-03-27 14:54:09 UTC")
+    results = transactions.find_by_created_at(DateHandler.new("2012-03-27 14:54:09 UTC").to_date)
     assert_equal 1, results.id
   end
 
   def test_it_finds_by_updated_at
-    results = transactions.find_by_updated_at("2012-03-27 14:54:09 UTC")
+    results = transactions.find_by_updated_at( DateHandler.new("2012-03-27 14:54:09 UTC").to_date)
     assert_equal 1, results.id
   end
 
   def test_it_finds_all_by_created_at
-    results = transactions.find_all_by_created_at("2012-03-27 14:54:09 UTC")
+    results = transactions.find_all_by_created_at( DateHandler.new("2012-03-27 14:54:09 UTC").to_date)
     assert_equal 1, results.size
   end
 
   def test_it_finds_all_by_updated_at
-    results = transactions.find_all_by_updated_at("2012-03-27 14:54:09 UTC")
+    results = transactions.find_all_by_updated_at( DateHandler.new("2012-03-27 14:54:09 UTC").to_date)
     assert_equal 1, results.size
   end
 

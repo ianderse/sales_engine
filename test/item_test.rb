@@ -9,7 +9,7 @@ class ItemTest < Minitest::Test
 
   def setup
 		@engine = SalesEngine.new
-		item_attributes = [{id: "1", name: "Item Name", description: "Item Description", unit_price: "5523", merchant_id: "1", created_at: "2012-03-27 14:53:59 UTC" }]
+		item_attributes = [{id: "1", name: "Item Name", description: "Item Description", unit_price: "5523", merchant_id: "1", created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC" }]
     @items = ItemRepository.new(@engine, item_attributes)
     @item = @items.all.first
 	end
@@ -31,7 +31,7 @@ class ItemTest < Minitest::Test
 	end
 
 	def test_it_returns_created_at
-		assert_equal "2012-03-27 14:53:59 UTC", item.created_at
+		assert_equal DateHandler.new("2012-03-27 14:54:09 UTC").to_date, item.created_at
 	end
 
 end

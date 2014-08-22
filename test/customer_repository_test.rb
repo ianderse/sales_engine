@@ -6,7 +6,7 @@ class CustomerRepositoryTest < Minitest::Test
   attr_reader :customers
 
   def setup
-    customer_attributes = [{id: 1, first_name: "Joey", last_name: "Ondricka"}]
+    customer_attributes = [{id: 1, first_name: "Joey", last_name: "Ondricka", created_at:  "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC"}]
     @customers = CustomerRepository.new(SalesEngine.new, customer_attributes)
   end
 

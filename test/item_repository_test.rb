@@ -6,7 +6,7 @@ class ItemRepositoryTest < Minitest::Test
 	attr_reader :items
 
 	def setup
-		item_attributes = [{id: "1", name: "Item Name", description: "Item Description", unit_price: "5523", merchant_id: "1" }]
+		item_attributes = [{id: "1", name: "Item Name", description: "Item Description", unit_price: "5523", merchant_id: "1",created_at:  "2012-03-27 14:54:09 UTC", updated_at: "2012-03-27 14:54:09 UTC" }]
 		@items = ItemRepository.new(SalesEngine.new, item_attributes)
 	end
 
