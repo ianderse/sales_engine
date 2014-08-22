@@ -7,8 +7,8 @@ class AssociationsTest < Minitest::Test
 	attr_reader :merchant, :customer, :item, :invoice_item, :invoice
 
   def setup
-  	merchants_attributes = [{name: 'Merchant number 1', id: "12"},
-  													{name: 'Merchant number 2', id: "5"}]
+  	merchants_attributes = [{name: 'Merchant Number 1', id: "12"},
+  													{name: 'Merchant Number 2', id: "5"}]
 
     items_attributes =     [{id: "5", name: 'A', description: "item description", unit_price: "5545", merchant_id: 12},
                            {id: "10", name: 'B', description: "item description", unit_price: "1234", merchant_id: 13},
@@ -58,11 +58,11 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_can_get_revenue_for_a_specific_date
-		assert_equal BigDecimal.new("25000"), merchant.revenue("2012-03-27")
+		assert_equal BigDecimal.new("250.00"), merchant.revenue("2012-03-27")
 	end
 
 	def test_it_can_get_total_revenue
-		assert_equal BigDecimal.new("25000"), merchant.revenue
+		assert_equal BigDecimal.new("250.00"), merchant.revenue
 	end
 
 	def test_it_can_return_customers_with_pending_invoices
@@ -109,7 +109,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_can_find_related_merchants
-		assert_equal "merchant number 1", item.merchant.name
+		assert_equal "Merchant Number 1", item.merchant.name
 	end
 
 	def test_it_returns_an_items_best_day
@@ -117,7 +117,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_can_get_top_x_merchants_by_revenue
-		assert_equal "merchant number 1", @merchant_repo.most_revenue(3).first.name
+		assert_equal "Merchant Number 1", @merchant_repo.most_revenue(3).first.name
 	end
 
 	def test_it_knows_its_own_items
@@ -141,7 +141,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_it_knows_associated_merchant_with_self
-		assert_equal "merchant number 1", invoice.merchant.name
+		assert_equal "Merchant Number 1", invoice.merchant.name
 	end
 
 	def test_merchant_can_return_all_items_sold
@@ -149,7 +149,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_merchant_repo_can_get_revenue_on_a_date
-		assert_equal BigDecimal.new("30000"), @merchant_repo.revenue("2012-03-27")
+		assert_equal BigDecimal.new("300.00"), @merchant_repo.revenue("2012-03-27")
 	end
 
 	def test_item_repo_can_get_total_item_revenue

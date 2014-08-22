@@ -21,13 +21,13 @@ class MerchantRepositoryTest < Minitest::Test
 
 	def test_it_finds_by_name
 		results = merchant_repository.find_by_name("Merchant Name")
-		assert_equal "merchant name", results.name
+		assert_equal "Merchant Name", results.name
 		assert_equal 1, results.id
 	end
 
 	def test_it_finds_by_id
 		results = merchant_repository.find_by_id(1)
-		assert_equal "merchant name", results.name
+		assert_equal "Merchant Name", results.name
 	end
 
 	def test_it_finds_all_by_name

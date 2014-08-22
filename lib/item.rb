@@ -1,4 +1,5 @@
 require 'bigdecimal'
+require 'date'
 require_relative 'date_handler'
 
 class Item
@@ -44,6 +45,7 @@ class Item
         end
       end
     end
-    DateHandler.new(best_invoice.created_at).to_time
+    date = DateHandler.new(best_invoice.created_at)
+    Date.new(date.year.to_i,date.month.to_i,date.day.to_i)
   end
 end
