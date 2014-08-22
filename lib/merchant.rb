@@ -53,7 +53,7 @@ class Merchant
         end
       end
     end
-    failed_customers.count
+    failed_customers.unique
   end
 
   def revenue(date=nil)
