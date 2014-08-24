@@ -159,7 +159,6 @@ class AssociationsTest < Minitest::Test
 
 	def test_item_repo_can_get_most_sold_items
 		assert_equal "A", @item_repo.most_items(2).first.name
-		#p @item_repo.most_items(2)
 	end
 
 	def test_invoice_repo_can_create_a_new_invoice
