@@ -78,4 +78,18 @@ class InvoiceRepository
     engine.find_merchant_by_merchant_id(id)
   end
 
+  def create(params)
+    @customer = params.fetch(:customer)
+    @merchant = params.fetch(:merchant)
+    @status   = params.fetch(:status)
+    @items    = params.fetch(:items)
+    @id       = @invoices.last.id + 1
+    time      = Time.now
+    created_at= "#{time.year}-#{time.month}-#{time.day}"
+
+    new_params = {id: @id, customer_id: @customer.id, merchant_id: @merchant.id, status: @status, created_at: created_at, updated_at: created_at}
+    @invoices << Invoice.new(new_params, self)
+    @invoices.last
+  end
+
 end

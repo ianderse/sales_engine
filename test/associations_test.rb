@@ -162,4 +162,11 @@ class AssociationsTest < Minitest::Test
 		#p @item_repo.most_items(2)
 	end
 
+	def test_invoice_repo_can_create_a_new_invoice
+		invoice = @invoice_repo.create(customer: @customer_repo.all.first, merchant: @merchant_repo.all.first, status: "shipped",
+                         items: [@item_repo.all.first, @item_repo.all[1], @item_repo.all.last])
+
+		assert_equal 3, invoice.id
+	end
+
 end

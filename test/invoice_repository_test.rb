@@ -58,4 +58,5 @@ class InvoiceRepositoryTest < Minitest::Test
 		results = repository.find_all_by_status("shipped")
 		assert_equal 1, results.count
 	end
+
 end
