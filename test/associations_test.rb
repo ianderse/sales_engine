@@ -177,4 +177,8 @@ class AssociationsTest < Minitest::Test
 		assert_equal "4444333322221111", invoice.transactions.last.cc_number
 	end
 
+	def test_customer_can_return_its_favorite_merchant
+		assert_equal "Merchant Number 1", @customer.favorite_merchant
+	end
+
 end

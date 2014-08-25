@@ -21,6 +21,9 @@ class Customer
   end
 
   def favorite_merchant
-
+    succesful_transactions = transactions.each {|transaction| transaction.successful_transaction?}
+    grouped_transactions   = succesful_transactions.group_by {|transaction| transaction.merchant_id}
+    merchant_id = grouped_transactions.max_by {|transaction| transaction.size}[0]
+    repo.engine.merchant_repository.find_by_id(merchant_id)
   end
 end
