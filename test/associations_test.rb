@@ -168,4 +168,13 @@ class AssociationsTest < Minitest::Test
 		assert_equal 3, invoice.id
 	end
 
+	def test_invoice_repo_can_add_a_credit_card
+		invoice = @invoice_repo.create(customer: @customer_repo.all.first, merchant: @merchant_repo.all.first, status: "shipped",
+                         items: [@item_repo.all.first, @item_repo.all[1], @item_repo.all.last])
+		invoice.charge(credit_card_number: "4444333322221111",
+               credit_card_expiration: "10/13", result: "success")
+
+		assert_equal "4444333322221111", invoice.transactions.last.cc_number
+	end
+
 end

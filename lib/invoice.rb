@@ -1,4 +1,5 @@
 require_relative 'date_handler'
+require_relative 'transaction'
 class Invoice
 
  attr_reader :id,
@@ -44,6 +45,24 @@ class Invoice
     invoice_items.collect do |invoice_item|
       invoice_item.item
     end
+  end
+
+  def charge(params)
+    cc_number = params[:credit_card_number]
+    cc_expiration = params[:credit_card_expiration]
+    result = params[:result]
+    time      = Time.now
+    created_at= "#{time.year}-#{time.month}-#{time.day}"
+    if transactions.last.nil?
+      transaction_id = 0
+    else
+      transaction_id = transactions.last.id
+    end
+
+    trans_repo = @repo.engine.transaction_repository
+    transaction_params = {id: transaction_id+1, invoice_id: self.id, credit_card_number: cc_number, credit_card_expiration: cc_expiration, result: result, created_at: created_at, updated_at: created_at}
+
+    trans_repo.transactions << Transaction.new(transaction_params, self)
   end
 
 end
