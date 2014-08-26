@@ -9,7 +9,13 @@ class InvoiceItemRepository
 
   def initialize(engine, invoice_items_attributes)
     @engine = engine
-    @invoice_items = invoice_items_attributes.collect {|params| InvoiceItem.new(params, self)}
+    @invoice_items = invoice_items_attributes.collect do |params|
+      if params.kind_of? InvoiceItem
+        params
+      else
+        InvoiceItem.new(params, self)
+      end
+    end
   end
 
   def all
@@ -56,12 +62,19 @@ class InvoiceItemRepository
     invoice_items.select {|invoice_item| invoice_item.item_id == id}
   end
 
+  include Enumerable
+  def each(&block)
+    invoice_items.each(&block)
+  end
+
   def find_all_by_quantity(quantity)
-    invoice_items.select {|invoice_item| invoice_item.quantity == quantity}
+    items = invoice_items.select {|invoice_item| invoice_item.quantity == quantity}
+    InvoiceItemRepository.new(engine, items)
   end
 
   def find_all_by_created_at(created_at)
-    invoice_items.select {|invoice_item| invoice_item.created_at == created_at}
+    items = invoice_items.select {|invoice_item| invoice_item.created_at == created_at}
+    InvoiceItemRepository.new(engine, items)
   end
 
   def find_all_by_updated_at(updated_at)
