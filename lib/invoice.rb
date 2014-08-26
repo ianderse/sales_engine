@@ -44,6 +44,10 @@ class Invoice
     transactions.find_all {|transaction| transaction.successful_transaction?}
   end
 
+  def revenue
+    invoice_items.reduce(0) {|s, invoice_item| s + invoice_item.item_revenue }
+  end
+
   def items
     invoice_items.collect do |invoice_item|
       invoice_item.item

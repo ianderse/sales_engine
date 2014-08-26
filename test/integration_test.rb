@@ -6,10 +6,10 @@ require_relative '../lib/sales_engine'
 
 class IntegrationTest < Minitest::Test
 
-	def setup
-		@engine = SalesEngine.new
-		@engine.startup
-	end
+	# def setup
+	# 	@engine = SalesEngine.new
+	# 	@engine.startup
+	# end
 
 	def test_it_can_find_best_day_for_specific_item
 		skip

@@ -19,13 +19,16 @@ class Merchant
     repo.find_invoices_by_merchant_id(self.id)
   end
 
-  def successful_transactions
+  def successful_invoices
     invoices.find_all {|invoice| invoice.all_successful_transactions}
   end
 
+  def grouped_customers
+    successful_invoices.group_by {|invoice| invoice.customer.last_name}
+  end
+
   def favorite_customer
-    customers = successful_transactions.group_by {|invoice| invoice.customer.last_name}
-    customers.sort[0].last[0].customer
+    grouped_customers.sort[0].last[0].customer
   end
 
   def successful_customer_sort(customers)
@@ -34,18 +37,12 @@ class Merchant
              .first
   end
 
+  def failed_invoices
+    invoices.select {|invoice| !invoice.successful_transaction?}
+  end
+
   def customers_with_pending_invoices
-    #refactor this shiz
-    #go through each invoice_id, if it has a success it is not pending
-    failed_customers = []
-
-    invoices.each do |invoice|
-      if !invoice.successful_transaction?
-        failed_customers << invoice.customer
-      end
-    end
-
-    failed_customers.uniq
+    failed_invoices.select {|invoice| invoice.customer }.uniq
   end
 
   def revenue(date=nil)
@@ -57,19 +54,7 @@ class Merchant
   end
 
   def total_revenue
-  #check if invoice result is failed, if so do not include them in the calc.
-    total = 0
-      invoices.each do |invoice|
-        invoice.transactions.each do |transaction|
-          if transaction.successful_transaction?
-            invoice.invoice_items.each do |item|
-              total += item.item_revenue
-            end
-          end
-        end
-      end
-      total
-      #need to return as BigDecimal object
+    successful_invoices.reduce(0) {|s, invoice| s + invoice.revenue}
   end
 
   def revenue_on_date(date)
