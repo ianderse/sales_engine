@@ -21,16 +21,16 @@ class Merchant
   end
 
   def favorite_customer
+    #ugly
     @successful_transactions = []
     invoices.each do |invoice|
-      @successful_transactions << invoice.transactions.each {|transaction| transaction.successful_transaction?}
+      @successful_transactions << invoice.transactions.find_all {|transaction| transaction.successful_transaction?}
     end
-    customers = @successful_transactions.flatten.group_by {|transaction| transaction.invoice.customer}
-    successful_customer_sort(customers)
+    customers = @successful_transactions.flatten.group_by {|transaction| transaction.invoice.customer.last_name}
+    customers.sort[0].last[0].invoice.customer
   end
 
   def successful_customer_sort(customers)
-    customer_names = []
     customers.group_by {|customer| customer.last_name}
              .values.max_by(&:size)
              .first

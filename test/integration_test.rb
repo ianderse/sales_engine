@@ -34,4 +34,12 @@ class IntegrationTest < Minitest::Test
 
 	end
 
+	def test_it_can_find_favorite_customer_for_specific_merchant
+		@engine = SalesEngine.new
+		@engine.startup
+		merchant = @engine.merchant_repository.find_by_name("Terry-Moore")
+
+		assert_equal "Abernathy", merchant.favorite_customer.last_name
+	end
+
 end
