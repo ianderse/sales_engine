@@ -16,27 +16,27 @@ class SalesEngine
                 :transaction_repository,
                 :dir
 
-  def initialize(dir="data")
+  def initialize(dir="./data")
     @dir = dir
   end
 
   def startup
-    merchants_csv = CsvHandler.new("./#{dir}/merchants.csv")
+    merchants_csv = CsvHandler.new("#{dir}/merchants.csv")
     @merchant_repository = MerchantRepository.new(self, merchants_csv.data)
 
-    invoices_csv = CsvHandler.new("./#{dir}/invoices.csv")
+    invoices_csv = CsvHandler.new("#{dir}/invoices.csv")
     @invoice_repository  = InvoiceRepository.new(self, invoices_csv.data)
 
-    items_csv = CsvHandler.new("./#{dir}/items.csv")
+    items_csv = CsvHandler.new("#{dir}/items.csv")
     @item_repository = ItemRepository.new(self, items_csv.data)
 
-    inv_it_csv = CsvHandler.new("./#{dir}/invoice_items.csv")
+    inv_it_csv = CsvHandler.new("#{dir}/invoice_items.csv")
     @invoice_item_repository = InvoiceItemRepository.new(self, inv_it_csv.data)
 
-    customer_csv = CsvHandler.new("./#{dir}/customers.csv")
+    customer_csv = CsvHandler.new("#{dir}/customers.csv")
     @customer_repository = CustomerRepository.new(self, customer_csv.data)
 
-    trans_csv = CsvHandler.new("./#{dir}/transactions.csv")
+    trans_csv = CsvHandler.new("#{dir}/transactions.csv")
     @transaction_repository = TransactionRepository.new(self, trans_csv.data)
   end
 

@@ -62,7 +62,7 @@ class Merchant
 
   def revenue_on_date(date)
     #check if invoice result is failed, if so do not include them in the calc.
-    #refactor the shit out of this and the previous method
+    #refactor the shit out of this
     invoices_on_date = []
 
     invoices.each do |invoice|
