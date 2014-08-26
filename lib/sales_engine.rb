@@ -93,15 +93,3 @@ class SalesEngine
   end
 
 end
-
-if __FILE__ == $0
-  engine = SalesEngine.new
-  engine.startup
-
-  engine.merchant_repository
-  engine.invoice_repository
-  engine.item_repository
-  engine.invoice_item_repo
-  engine.customer_repository
-  engine.transaction_repo
-end
