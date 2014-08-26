@@ -90,7 +90,6 @@ class Merchant
     invoice.updated_at == date
   end
 
-
   def items_sold
     successful_invoices.reduce(0) {|s, invoice| s + invoice.invoice_items.size}
   end
