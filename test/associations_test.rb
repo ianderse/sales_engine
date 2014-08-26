@@ -178,7 +178,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	def test_customer_can_return_its_favorite_merchant
-		assert_equal "Merchant Number 1", @customer.favorite_merchant
+		assert @customer.favorite_merchant.is_a?(Merchant)
 	end
 
 end

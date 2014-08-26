@@ -15,7 +15,6 @@ class Invoice
     @customer_id = params[:customer_id].to_i
     @merchant_id = params[:merchant_id].to_i
     @status      = params[:status]
-    #to_date
     @created_at  = DateHandler.new(params[:created_at]).to_date
     @updated_at  = DateHandler.new(params[:created_at]).to_date
     @repo        = repo

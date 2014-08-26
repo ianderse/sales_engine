@@ -12,8 +12,6 @@ class Merchant
     @repo        = repo
   end
 
-  #validate data
-
   def items
     repo.find_items_by_merchant_id(self.id)
   end
@@ -23,16 +21,12 @@ class Merchant
   end
 
   def favorite_customer
-   successful_transactions = []
-
+    @successful_transactions = []
     invoices.each do |invoice|
-      invoice.transactions.each do |transaction|
-        if transaction.successful_transaction?
-          successful_transactions << transaction.invoice.customer
-        end
-      end
+      @successful_transactions << invoice.transactions.each {|transaction| transaction.successful_transaction?}
     end
-    successful_customer_sort(successful_transactions)
+    customers = @successful_transactions.flatten.group_by {|transaction| transaction.invoice.customer}
+    successful_customer_sort(customers)
   end
 
   def successful_customer_sort(customers)
