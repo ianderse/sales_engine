@@ -6,13 +6,13 @@ require_relative '../lib/sales_engine'
 
 class IntegrationTest < Minitest::Test
 
-	# def setup
-	# 	@engine = SalesEngine.new
-	# 	@engine.startup
-	# end
+	def setup
+		@engine = SalesEngine.new
+		@engine.startup
+	end
 
 	def test_it_can_find_best_day_for_specific_item
-		skip
+
 		item = @engine.item_repository.find_by_name("Item Accusamus Ut")
 
 		assert_equal Time.new(2012,03,18).to_date, item.best_day.to_date
@@ -20,7 +20,7 @@ class IntegrationTest < Minitest::Test
 	end
 
 	def test_it_can_find_pending_invoices_for_specific_merchants
-		skip
+
 		merchant = @engine.merchant_repository.find_by_name("Parisian Group")
 		customers = merchant.customers_with_pending_invoices
 
@@ -32,7 +32,7 @@ class IntegrationTest < Minitest::Test
 	end
 
 	def test_it_can_find_favorite_customer_for_specific_merchant
-		skip
+
 		merchant = @engine.merchant_repository.find_by_name("Terry-Moore")
 		assert_equal "Abernathy", merchant.favorite_customer.last_name
 	end

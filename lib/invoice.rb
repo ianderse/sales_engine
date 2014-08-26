@@ -41,7 +41,7 @@ class Invoice
   end
 
   def all_successful_transactions
-    transactions.find_all {|transaction| transaction.successful_transaction?}
+    transactions.any? {|transaction| transaction.successful_transaction?}
   end
 
   def revenue

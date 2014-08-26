@@ -42,7 +42,10 @@ class Merchant
   end
 
   def customers_with_pending_invoices
-    failed_invoices.select {|invoice| invoice.customer }.uniq
+    failed_customers = failed_invoices.map do |invoice|
+      invoice.customer
+    end
+    failed_customers.uniq
   end
 
   def revenue(date=nil)

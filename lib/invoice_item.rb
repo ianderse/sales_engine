@@ -15,7 +15,6 @@ class InvoiceItem
     @id          = params[:id].to_i
     @quantity    = params[:quantity].to_i
     @unit_price  = BigDecimal.new((params[:unit_price].to_f/100.00).to_s)
-    #to_date
     @created_at  = DateHandler.new(params[:created_at]).to_date
     @updated_at  = DateHandler.new(params[:updated_at]).to_date
     @item_id     = params[:item_id].to_i
@@ -36,17 +35,7 @@ class InvoiceItem
   end
 
   def item_revenue
-    BigDecimal.new(self.quantity * self.unit_price).truncate(2)
+    BigDecimal.new(self.quantity * self.unit_price)
   end
 
-  #This is potentially totally useless, keeping it just in case:
-  def total_sold
-    sold_items = []
-
-    item.invoice_items.each do |invoice_item|
-      sold_items << invoice_item.item
-    end
-
-    sold_items.group_by {|item| item.name}.values.max_by(&:size)
-  end
 end
