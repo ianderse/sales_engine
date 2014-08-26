@@ -81,8 +81,8 @@ class ItemRepository
   end
 
   def most_items(num)
-  	all.each do |item|
-  		item.invoice_items.group_by {|invoice_item| invoice_item.item.name}.values.take(num)#.max_by(&:size)#.take(num)
-  	end
+    all.each do |item|
+      item.invoice_items.group_by {|invoice_item| invoice_item.item.name}.values.take(num)#.max_by(&:size)#.take(num)
+    end
   end
 end

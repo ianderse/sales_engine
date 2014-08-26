@@ -13,7 +13,7 @@ class DateHandler
   end
 
   def to_date
-  	Date.new(year,month,day)
+    Date.new(year,month,day)
   end
 
 end

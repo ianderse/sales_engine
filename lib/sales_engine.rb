@@ -30,14 +30,14 @@ class SalesEngine
     items_csv = CsvHandler.new("./#{dir}/items.csv")
     @item_repository = ItemRepository.new(self, items_csv.data)
 
-    invoice_item_csv = CsvHandler.new("./#{dir}/invoice_items.csv")
-    @invoice_item_repository = InvoiceItemRepository.new(self, invoice_item_csv.data)
+    inv_it_csv = CsvHandler.new("./#{dir}/invoice_items.csv")
+    @invoice_item_repository = InvoiceItemRepository.new(self, inv_it_csv.data)
 
     customer_csv = CsvHandler.new("./#{dir}/customers.csv")
     @customer_repository = CustomerRepository.new(self, customer_csv.data)
 
-    transaction_csv = CsvHandler.new("./#{dir}/transactions.csv")
-    @transaction_repository = TransactionRepository.new(self, transaction_csv.data)
+    trans_csv = CsvHandler.new("./#{dir}/transactions.csv")
+    @transaction_repository = TransactionRepository.new(self, trans_csv.data)
   end
 
   def find_items_by_merchant_id(id)
