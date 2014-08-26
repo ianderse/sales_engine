@@ -7,23 +7,20 @@ require_relative '../lib/sales_engine'
 class IntegrationTest < Minitest::Test
 
 	def setup
-
+		@engine = SalesEngine.new
+		@engine.startup
 	end
 
 	def test_it_can_find_best_day_for_specific_item
-		@engine = SalesEngine.new
-		@engine.startup
-
+		skip
 		item = @engine.item_repository.find_by_name("Item Accusamus Ut")
 
-		#assert_equal "2012-03-27", item.best_day.to_date
-		item.best_day
+		assert_equal Time.new(2012,03,18).to_date, item.best_day.to_date
 
 	end
 
 	def test_it_can_find_pending_invoices_for_specific_merchants
-		@engine = SalesEngine.new
-		@engine.startup
+		skip
 		merchant = @engine.merchant_repository.find_by_name("Parisian Group")
 		customers = merchant.customers_with_pending_invoices
 
@@ -35,11 +32,20 @@ class IntegrationTest < Minitest::Test
 	end
 
 	def test_it_can_find_favorite_customer_for_specific_merchant
-		@engine = SalesEngine.new
-		@engine.startup
+		skip
 		merchant = @engine.merchant_repository.find_by_name("Terry-Moore")
-
 		assert_equal "Abernathy", merchant.favorite_customer.last_name
+	end
+
+	def test_it_can_find_item_with_most_revenue
+		skip
+		assert_equal "Item Dicta Autem", @engine.item_repository.most_revenue(5).first.name
+		assert_equal "Item Amet Accusamus", @engine.item_repository.most_revenue(5).last.name
+	end
+
+	def test_it_can_find_item_with_most_sold
+		skip
+		assert_equal "Item Nam Magnam", @engine.item_repository.most_items(37)[1].name
 	end
 
 end

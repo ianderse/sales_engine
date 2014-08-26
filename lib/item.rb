@@ -29,6 +29,18 @@ class Item
     repo.find_invoice_items_by_item_id(self.id)
   end
 
+  def successful_invoice_items
+    invoice_items.find_all {|invoice_item| invoice_item.successful_invoice?}
+  end
+
+  def number_sold
+    successful_invoice_items.reduce(0) {|s, invoice_i|s + invoice_i.quantity}
+  end
+
+  def revenue
+    successful_invoice_items.reduce(0) {|s,invoice_i|s + invoice_i.item_revenue}
+  end
+
   def merchant
     repo.find_merchant_by_merchant_id(self.merchant_id)
   end

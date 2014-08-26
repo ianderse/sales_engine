@@ -27,6 +27,10 @@ class InvoiceItem
     repo.find_invoice_by_invoice_id(self.invoice_id)
   end
 
+  def successful_invoice?
+    invoice.successful_transaction?
+  end
+
   def item
     repo.find_item_by_item_id(self.item_id)
   end

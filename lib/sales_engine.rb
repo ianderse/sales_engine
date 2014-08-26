@@ -88,6 +88,10 @@ class SalesEngine
     merchant_repository.find_by_id(id)
   end
 
+  def find_all_invoice_items
+    invoice_item_repository.all
+  end
+
 end
 
 if __FILE__ == $0

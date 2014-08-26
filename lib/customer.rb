@@ -20,10 +20,16 @@ class Customer
     invoices.find_all {|invoice| invoice.transactions}
   end
 
+  def successful_transactions
+    transactions.find_all {|transaction| transaction.successful_transaction?}
+  end
+
+  def favorite_merchant_id
+    g = successful_transactions.group_by {|transaction| transaction.merchant_id}
+    g.max_by {|transaction| transaction.size}[0]
+  end
+
   def favorite_merchant
-    succesful_transactions = transactions.each {|transaction| transaction.successful_transaction?}
-    grouped_transactions   = succesful_transactions.group_by {|transaction| transaction.merchant_id}
-    merchant_id = grouped_transactions.max_by {|transaction| transaction.size}[0]
-    repo.engine.merchant_repository.find_by_id(merchant_id)
+    repo.engine.merchant_repository.find_by_id(favorite_merchant_id)
   end
 end

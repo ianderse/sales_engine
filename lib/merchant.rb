@@ -6,7 +6,6 @@ class Merchant
   def initialize(params, repo)
     @id          = params[:id].to_i
     @name        = params[:name]
-    #to_date
     @created_at  = DateHandler.new(params[:created_at]).to_date
     @updated_at  = DateHandler.new(params[:updated_at]).to_date
     @repo        = repo
@@ -20,14 +19,13 @@ class Merchant
     repo.find_invoices_by_merchant_id(self.id)
   end
 
+  def successful_transactions
+    invoices.find_all {|invoice| invoice.all_successful_transactions}
+  end
+
   def favorite_customer
-    #ugly
-    @successful_transactions = []
-    invoices.each do |invoice|
-      @successful_transactions << invoice.transactions.find_all {|transaction| transaction.successful_transaction?}
-    end
-    customers = @successful_transactions.flatten.group_by {|transaction| transaction.invoice.customer.last_name}
-    customers.sort[0].last[0].invoice.customer
+    customers = successful_transactions.group_by {|invoice| invoice.customer.last_name}
+    customers.sort[0].last[0].customer
   end
 
   def successful_customer_sort(customers)

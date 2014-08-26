@@ -40,6 +40,10 @@ class Invoice
     transactions.any? {|transaction| transaction.successful_transaction?}
   end
 
+  def all_successful_transactions
+    transactions.find_all {|transaction| transaction.successful_transaction?}
+  end
+
   def items
     invoice_items.collect do |invoice_item|
       invoice_item.item
@@ -59,9 +63,12 @@ class Invoice
     end
 
     trans_repo = @repo.engine.transaction_repository
-    transaction_params = {id: transaction_id+1, invoice_id: self.id, credit_card_number: cc_number, credit_card_expiration: cc_expiration, result: result, created_at: created_at, updated_at: created_at}
+    params = {id: transaction_id+1, invoice_id: self.id,
+              credit_card_number: cc_number,
+              credit_card_expiration: cc_expiration, result: result,
+              created_at: created_at, updated_at: created_at}
 
-    trans_repo.transactions << Transaction.new(transaction_params, self)
+    trans_repo.transactions << Transaction.new(params, self)
   end
 
 end

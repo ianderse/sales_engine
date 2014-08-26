@@ -95,11 +95,21 @@ class InvoiceRepository
     grouped_items.size.times do |i|
       key = grouped_items.keys[i-1]
       items = grouped_items[key]
-      item_attributes = {id: @engine.invoice_item_repository.all.last.id+1, quantity: items.size, unit_price: items.first.unit_price, created_at: created_at, updated_at: created_at, item_id: items.first.id, invoice_id: @id}
-      @engine.invoice_item_repository.invoice_items << InvoiceItem.new(item_attributes, @engine.invoice_item_repository)
+      #refactor below
+      item_attr = {id: @engine.find_all_invoice_items.last.id+1,
+                  quantity: items.size,
+                  unit_price: items.first.unit_price,
+                  created_at: created_at, updated_at: created_at,
+                  item_id: items.first.id, invoice_id: @id}
+
+      @engine.find_all_invoice_items <<
+      InvoiceItem.new(item_attr, @engine.invoice_item_repository)
     end
 
-    new_params = {id: @id, customer_id: @customer.id, merchant_id: @merchant.id, status: @status, created_at: created_at, updated_at: created_at}
+    new_params = {id: @id, customer_id: @customer.id,
+                  merchant_id: @merchant.id, status: @status,
+                  created_at: created_at, updated_at: created_at}
+
     @invoices << Invoice.new(new_params, self)
     @invoices.last
   end
