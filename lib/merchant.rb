@@ -31,12 +31,6 @@ class Merchant
     grouped_customers.sort[0].last[0].customer
   end
 
-  def successful_customer_sort(customers)
-    customers.group_by {|customer| customer.last_name}
-             .values.max_by(&:size)
-             .first
-  end
-
   def failed_invoices
     invoices.select {|invoice| !invoice.successful_transaction?}
   end
