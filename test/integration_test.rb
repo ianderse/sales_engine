@@ -44,7 +44,6 @@ class IntegrationTest < Minitest::Test
 	end
 
 	def test_it_can_find_item_with_most_sold
-		skip
 		assert_equal "Item Nam Magnam", @engine.item_repository.most_items(37)[1].name
 	end
 
