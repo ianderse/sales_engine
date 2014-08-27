@@ -60,6 +60,6 @@ class MerchantRepository
   end
 
   def revenue(date)
-    all.reduce(BigDecimal.new(0)) {|total, merchant| total + merchant.revenue(date)}
+    all.reduce(BigDecimal.new(0)) {|sum,merchant| sum + merchant.revenue(date)}
   end
 end
