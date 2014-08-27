@@ -75,6 +75,7 @@ class AssociationsTest < Minitest::Test
 	end
 
 	# def test_it_can_get_total_revenue_with_stubs
+	#   leaving in for learning purposes
 	# 	skip
 	# 	invoice = Minitest::Mock.new
 	# 	invoice_item = Minitest::Mock.new
@@ -100,10 +101,9 @@ class AssociationsTest < Minitest::Test
     assert_equal 2, customer.transactions.count
   end
 
- #  def test_favorite_merchant_returns_merchant_with_most_successful_tranactions
- #    skip
- #    assert_equal 11, customer.favorite_merchant
- #  end
+  def test_favorite_merchant_returns_merchant_with_most_successful_tranactions
+    assert_equal "Merchant Number 1", customer.favorite_merchant.name
+  end
 
   def test_it_can_find_related_invoice_items
 		assert_equal 1, item.invoice_items.size
