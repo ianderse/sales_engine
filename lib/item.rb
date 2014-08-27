@@ -43,10 +43,9 @@ class Item
     repo.find_merchant_by_merchant_id(self.merchant_id)
   end
 
-  def best_day
+  def best_invoice_item
     invoices = invoice_items.select {|invoice_item| invoice_item.invoice}
-
-    best_invoice_item = invoices.max_by do |invoice_item|
+    invoices.max_by do |invoice_item|
       invoices.each do |invoice_item2|
         if invoice_item.id == invoice_item2.id
           invoice_item.item_revenue + invoice_item2.item_revenue
@@ -55,7 +54,9 @@ class Item
         end
       end
     end
+  end
 
+  def best_day
     best_invoice = best_invoice_item.invoice
     date = best_invoice.created_at
   end
