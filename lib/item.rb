@@ -23,14 +23,12 @@ class Item
     @repo = repo
   end
 
-  #validate data
-
   def invoice_items
-    repo.find_invoice_items_by_item_id(self.id)
+    @invoice_items ||= repo.find_invoice_items_by_item_id(self.id)
   end
 
   def successful_invoice_items
-    invoice_items.find_all {|invoice_item| invoice_item.successful_invoice?}
+    @successful_invoice_items ||= invoice_items.find_all {|invoice_item| invoice_item.successful_invoice?}
   end
 
   def number_sold
