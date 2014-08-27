@@ -7,9 +7,21 @@ require_relative '../lib/sales_engine'
 class IntegrationTest < Minitest::Test
 
 	def setup
-		skip
+
 		@engine = SalesEngine.new
 		@engine.startup
+	end
+
+	def test_it_can_find_revenue_for_specific_date
+		merchant = @engine.merchant_repository.find_by_name "Willms and Sons"
+		date = Date.parse "Fri, 09 Mar 2012"
+		assert_equal BigDecimal.new("8373.29"), merchant.revenue(date)
+	end
+
+	def test_it_can_find_revenue_for_specific_date_merchant_repo
+		date = Date.parse "Tue, 20 Mar 2012"
+
+		assert_equal BigDecimal.new("2549722.91"), @engine.merchant_repository.revenue(date)
 	end
 
 	def test_it_can_find_best_day_for_specific_item

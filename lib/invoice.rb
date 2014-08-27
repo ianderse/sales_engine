@@ -40,8 +40,8 @@ class Invoice
     transactions.any? {|transaction| transaction.successful_transaction?}
   end
 
-  def all_successful_transactions
-    transactions.any? {|transaction| transaction.successful_transaction?}
+  def successful_transactions
+    transactions.find_all {|transaction| transaction.successful_transaction?}
   end
 
   def revenue

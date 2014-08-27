@@ -20,7 +20,7 @@ class Merchant
   end
 
   def successful_invoices
-    invoices.find_all {|invoice| invoice.all_successful_transactions}
+    invoices.find_all {|invoice| invoice.successful_transaction?}
   end
 
   def grouped_customers
@@ -54,31 +54,16 @@ class Merchant
     successful_invoices.reduce(0) {|s, invoice| s + invoice.revenue}
   end
 
-  def revenue_on_date(date)
-    #check if invoice result is failed, if so do not include them in the calc.
-    #refactor the shit out of this
-    invoices_on_date = []
-
-    invoices.each do |invoice|
+  def invoices_on_date(date)
+    successful_invoices.find_all do |invoice|
       if created_at_date?(invoice, date) || updated_at_date?(invoice, date)
-        invoices_on_date << invoice
+        invoice
       end
     end
+  end
 
-    #puts invoices_on_date.last
-
-    total = 0
-    invoices_on_date.each do |invoice|
-      invoice.transactions.each do |transaction|
-          if transaction.successful_transaction?
-            invoice.invoice_items.each do |item|
-              total += item.item_revenue
-            end
-          end
-        end
-      end
-      total
-      #need to return as BigDecimal object
+  def revenue_on_date(date)
+    invoices_on_date(date).reduce(0) {|t, i| t + i.revenue}
   end
 
   def created_at_date?(invoice, date)
