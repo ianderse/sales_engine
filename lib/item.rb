@@ -28,7 +28,7 @@ class Item
   end
 
   def successful_invoice_items
-    @successful_invoice_items ||= invoice_items.find_all {|invoice_item| invoice_item.successful_invoice?}
+    invoice_items.find_all {|invoice_item| invoice_item.successful_invoice?}
   end
 
   def number_sold

@@ -59,7 +59,7 @@ class Invoice
     time          = Time.now
     created_at    = "#{time.year}-#{time.month}-#{time.day}"
 
-    transactions.last.nil? ? t_id=0 : t_id=transactions.last.id
+    transactions.last.nil? ? t_id = 0 : t_id = transactions.last.id
 
     trans_repo = @repo.engine.transaction_repository
     params = {id: t_id+1, invoice_id: self.id,
