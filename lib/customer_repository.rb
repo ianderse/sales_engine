@@ -57,4 +57,12 @@ class CustomerRepository
   def find_invoices_by_customer_id(id)
     engine.find_invoices_by_customer_id(id)
   end
+
+  def most_items
+    all.sort_by {|customer| customer.items_bought}.reverse.first
+  end
+
+  def most_revenue
+    all.sort_by {|customer| customer.revenue}.reverse.first
+  end
 end

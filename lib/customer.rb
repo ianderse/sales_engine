@@ -23,6 +23,10 @@ class Customer
     transactions.find_all {|transaction| transaction.successful_transaction?}
   end
 
+  def successful_invoices
+    invoices.find_all {|invoice| invoice.successful_transaction?}
+  end
+
   def favorite_merchant_id
     g = successful_transactions.group_by {|transaction| transaction.merchant_id}
     g.max_by {|transaction| transaction.size}[0]
@@ -31,4 +35,21 @@ class Customer
   def favorite_merchant
     repo.engine.merchant_repository.find_by_id(favorite_merchant_id)
   end
+
+  def items_bought
+    successful_invoices.reduce(0) {|s, invoice| s + invoice.total_item_quantity}
+  end
+
+  def revenue
+    successful_invoices.reduce(0) {|s, invoice| s + invoice.revenue}
+  end
+
+  def days_since_activity
+    Time.now.day - transactions.last.updated_at.day
+  end
+
+  def pending_invoices
+    invoices.select {|invoice| !invoice.successful_transaction?}
+  end
+
 end

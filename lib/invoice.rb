@@ -28,6 +28,10 @@ class Invoice
     repo.find_invoice_items_by_invoice_id(self.id)
   end
 
+  def total_item_quantity
+    invoice_items.reduce(0) {|total, item| total + item.quantity}
+  end
+
   def customer
     repo.find_customer_by_customer_id(self.customer_id)
   end
@@ -69,5 +73,7 @@ class Invoice
 
     trans_repo.transactions << Transaction.new(params, self)
   end
+
+
 
 end

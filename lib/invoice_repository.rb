@@ -79,6 +79,54 @@ class InvoiceRepository
     engine.find_merchant_by_merchant_id(id)
   end
 
+  def pending
+    all.find_all {|invoice| !invoice.successful_transaction?}
+  end
+
+  def successful_invoices
+    all.find_all {|invoice| invoice.successful_transaction?}
+  end
+
+  def created_at_date?(invoice, date)
+    invoice.created_at == date
+  end
+
+  def updated_at_date?(invoice, date)
+    invoice.updated_at == date
+  end
+
+  def average_items(date=nil)
+    if date.nil?
+      BigDecimal.new(((successful_invoices.reduce(0.00) {|s, i| s + i.total_item_quantity}) / successful_invoices.size).to_f.to_s).round(2)
+    else
+      average_items_on_date(date)
+    end
+  end
+
+  def average_items_on_date(date)
+    BigDecimal.new((invoices_on_date(date).reduce(0.00) {|s, i| s + i.total_item_quantity} / invoices_on_date(date).size).to_f.to_s).round(2)
+  end
+
+  def average_revenue(date=nil)
+    if date.nil?
+      ((successful_invoices.reduce(0) {|s, invoice| s + invoice.revenue}) / successful_invoices.size).round(2)
+    else
+      average_revenue_on_date(date)
+    end
+  end
+
+  def invoices_on_date(date)
+    successful_invoices.find_all do |invoice|
+      if created_at_date?(invoice, date) || updated_at_date?(invoice, date)
+        invoice
+      end
+    end
+  end
+
+  def average_revenue_on_date(date)
+    (invoices_on_date(date).reduce(0) {|t, i| t + i.revenue} / invoices_on_date(date).size).round(2)
+  end
+
   def create(params)
     #refactor this:
     @customer = params.fetch(:customer)

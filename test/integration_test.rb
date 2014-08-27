@@ -7,9 +7,39 @@ require_relative '../lib/sales_engine'
 class IntegrationTest < Minitest::Test
 
 	def setup
-		skip
 		@engine = SalesEngine.new
 		@engine.startup
+	end
+
+	def test_invoice_knows_if_it_is_pending
+		invoice = @engine.invoice_repository.find_by_id(13)
+		pending_invoices = @engine.invoice_repository.pending
+
+		assert pending_invoices.include?(invoice)
+	end
+
+	def test_customer_knows_its_pending_invoices
+		skip
+		assert_equal [], @engine.customer_repository.find_by_id(2).pending_invoices
+	end
+
+	def test_customer_knows_days_since_last_activity
+		skip
+		date = Date.parse("March 29, 2012")
+		date2 = Date.parse("March 29, 2012")
+
+		days_since = @engine.customer_repository.find_by_id(1).days_since_activity
+		assert (days_since >= 3 || days_since <= 4)
+	end
+
+	def test_customer_can_find_most_items
+		skip
+		assert_equal 622, @engine.customer_repository.most_items.id
+	end
+
+	def test_customer_can_find_most_revenue
+		skip
+		assert_equal 601, @engine.customer_repository.most_revenue.id
 	end
 
 	def test_it_can_find_revenue_for_specific_date

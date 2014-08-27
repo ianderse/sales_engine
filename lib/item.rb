@@ -16,7 +16,7 @@ class Item
     @id          = params[:id].to_i
     @name        = params[:name]
     @description = params[:description]
-    @unit_price  = BigDecimal.new((params[:unit_price].to_f/100.00).to_s)
+    @unit_price  = BigDecimal.new( (params[:unit_price].to_f/100.00).to_s )
     @merchant_id = params[:merchant_id].to_i
     @created_at  = DateHandler.new(params[:created_at]).to_date
     @updated_at  = DateHandler.new(params[:updated_at]).to_date

@@ -68,7 +68,6 @@ class Merchant
 
   def created_at_date?(invoice, date)
     invoice.created_at == date
-
   end
 
   def updated_at_date?(invoice, date)
