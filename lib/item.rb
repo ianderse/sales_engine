@@ -44,7 +44,6 @@ class Item
   end
 
   def best_day
-
     invoices = invoice_items.select {|invoice_item| invoice_item.invoice}
 
     best_invoice_item = invoices.max_by do |invoice_item|

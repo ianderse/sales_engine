@@ -49,9 +49,7 @@ class Invoice
   end
 
   def items
-    invoice_items.collect do |invoice_item|
-      invoice_item.item
-    end
+    invoice_items.collect {|invoice_item| invoice_item.item }
   end
 
   def charge(params)

@@ -6,7 +6,6 @@ class Customer
     @id          = (params[:id]).to_i
     @first_name  = params[:first_name]
     @last_name   = params[:last_name]
-    #to_date
     @created_at  = DateHandler.new(params[:created_at]).to_date
     @updated_at  = DateHandler.new(params[:updated_at]).to_date
     @repo = repo
