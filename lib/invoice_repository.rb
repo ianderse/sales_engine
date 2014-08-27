@@ -80,7 +80,7 @@ class InvoiceRepository
   end
 
   def create(params)
-    #fuck this shit, refactor everything
+    #refactor this:
     @customer = params.fetch(:customer)
     @merchant = params.fetch(:merchant)
     @status   = params.fetch(:status, "shipped")
@@ -92,10 +92,12 @@ class InvoiceRepository
     grouped_items = @items.group_by {|item| item.id}
     first_key = grouped_items.keys.first
     first_items = grouped_items[first_key]
+
+    #pull out into new invoice item method?
     grouped_items.size.times do |i|
       key = grouped_items.keys[i-1]
       items = grouped_items[key]
-      #refactor below
+
       item_attr = {id: @engine.find_all_invoice_items.last.id+1,
                   quantity: items.size,
                   unit_price: items.first.unit_price,
@@ -105,7 +107,7 @@ class InvoiceRepository
       @engine.find_all_invoice_items <<
       InvoiceItem.new(item_attr, @engine.invoice_item_repository)
     end
-
+    #pull out into new invoice method?
     new_params = {id: @id, customer_id: @customer.id,
                   merchant_id: @merchant.id, status: @status,
                   created_at: created_at, updated_at: created_at}

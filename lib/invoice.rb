@@ -62,7 +62,7 @@ class Invoice
     transactions.last.nil? ? t_id = 0 : t_id = transactions.last.id
 
     trans_repo = @repo.engine.transaction_repository
-    params = {id: t_id+1, invoice_id: self.id,
+    params = {id: t_id + 1, invoice_id: self.id,
               credit_card_number: cc_number,
               credit_card_expiration: cc_expiration, result: result,
               created_at: created_at, updated_at: created_at}
