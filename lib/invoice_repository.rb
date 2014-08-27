@@ -97,19 +97,26 @@ class InvoiceRepository
 
   def average_items(date=nil)
     if date.nil?
-      BigDecimal.new(((successful_invoices.reduce(0.00) {|s, i| s + i.total_item_quantity}) / successful_invoices.size).to_f.to_s).round(2)
+      s_i = successful_invoices
+      a = ((s_i.reduce(0.00) {|s, i| s+i.total_item_quantity}) / s_i.size)
+          .to_f.to_s
+      BigDecimal.new(a).round(2)
     else
       average_items_on_date(date)
     end
   end
 
   def average_items_on_date(date)
-    BigDecimal.new((invoices_on_date(date).reduce(0.00) {|s, i| s + i.total_item_quantity} / invoices_on_date(date).size).to_f.to_s).round(2)
+    i_o_d = invoices_on_date(date)
+    a = (i_o_d.reduce(0.00) {|s, i| s + i.total_item_quantity} / i_o_d.size)
+        .to_f.to_s
+    BigDecimal.new(a).round(2)
   end
 
   def average_revenue(date=nil)
     if date.nil?
-      ((successful_invoices.reduce(0) {|s, invoice| s + invoice.revenue}) / successful_invoices.size).round(2)
+      s_i = successful_invoices
+      ((s_i.reduce(0) {|s, invoice| s + invoice.revenue}) / s_i.size).round(2)
     else
       average_revenue_on_date(date)
     end
@@ -124,24 +131,11 @@ class InvoiceRepository
   end
 
   def average_revenue_on_date(date)
-    (invoices_on_date(date).reduce(0) {|t, i| t + i.revenue} / invoices_on_date(date).size).round(2)
+    i_o_d = invoices_on_date(date)
+    (i_o_d.reduce(0) {|t, i| t + i.revenue} / i_o_d.size).round(2)
   end
 
-  def create(params)
-    #refactor this:
-    @customer = params.fetch(:customer)
-    @merchant = params.fetch(:merchant)
-    @status   = params.fetch(:status, "shipped")
-    @items    = params.fetch(:items)
-    @id       = @invoices.last.id + 1
-    time      = Time.now
-    created_at= "#{time.year}-#{time.month}-#{time.day}"
-
-    grouped_items = @items.group_by {|item| item.id}
-    first_key = grouped_items.keys.first
-    first_items = grouped_items[first_key]
-
-    #pull out into new invoice item method?
+  def create_new_invoice_item(grouped_items, created_at)
     grouped_items.size.times do |i|
       key = grouped_items.keys[i-1]
       items = grouped_items[key]
@@ -155,13 +149,32 @@ class InvoiceRepository
       @engine.find_all_invoice_items <<
       InvoiceItem.new(item_attr, @engine.invoice_item_repository)
     end
-    #pull out into new invoice method?
+  end
+
+  def create_new_invoice(created_at)
     new_params = {id: @id, customer_id: @customer.id,
                   merchant_id: @merchant.id, status: @status,
                   created_at: created_at, updated_at: created_at}
 
     @invoices << Invoice.new(new_params, self)
     @invoices.last
+  end
+
+  def create(params)
+    @customer = params.fetch(:customer)
+    @merchant = params.fetch(:merchant)
+    @status   = params.fetch(:status, "shipped")
+    @items    = params.fetch(:items)
+    @id       = @invoices.last.id + 1
+    time      = Time.now
+    created_at= "#{time.year}-#{time.month}-#{time.day}"
+
+    grouped_items = @items.group_by {|item| item.id}
+    first_key = grouped_items.keys.first
+    first_items = grouped_items[first_key]
+
+    create_new_invoice_item(grouped_items, created_at)
+    create_new_invoice(created_at)
   end
 
 end
