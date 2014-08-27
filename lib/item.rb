@@ -44,16 +44,7 @@ class Item
   end
 
   def best_invoice_item
-    invoices = invoice_items.select {|invoice_item| invoice_item.invoice}
-    invoices.max_by do |invoice_item|
-      invoices.each do |invoice_item2|
-        if invoice_item.id == invoice_item2.id
-          invoice_item.item_revenue + invoice_item2.item_revenue
-        else
-          invoice_item.item_revenue
-        end
-      end
-    end
+    invoice_items.max_by {|invoice_item| invoice_item.item_revenue}
   end
 
   def best_day
